@@ -1,0 +1,30 @@
+﻿<Window x:Class="assignment.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:assignment"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="#F2F2F2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Width="300" HorizontalAlignment="Center" Background="White" >
+            <TextBlock Text="Login" FontSize="24" FontWeight="Bold" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Email:"/>
+            <TextBox x:Name="tbEmail" Margin="0 5 0 10"/>
+
+            <TextBlock Text="Password:"/>
+            <PasswordBox x:Name="pbPassword" Margin="0 5 0 10"/>
+
+            <TextBlock x:Name="txtError" Foreground="Red" FontSize="12" Visibility="Collapsed" Margin="0 0 0 10"/>
+
+            <Button Content="Login" Width="100" HorizontalAlignment="Right" Click="BtnLogin_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
