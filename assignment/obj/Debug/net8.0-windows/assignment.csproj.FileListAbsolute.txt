@@ -131,3 +131,10 @@ D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ref\assignment.dll
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\bin\Debug\net8.0-windows\appsettings.json
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment_Content.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminDashboard.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminDashboard.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\EmployeeDashboard.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ManagerDashboard.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\EmployeeDashboard.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ManagerDashboard.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment.sourcelink.json

@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using assignment.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace assignment
 {
@@ -19,9 +21,32 @@ namespace assignment
     /// </summary>
     public partial class AdminDashboard : Window
     {
+        private DepartmentHrmanagementDbContext context = new DepartmentHrmanagementDbContext();
         public AdminDashboard()
         {
             InitializeComponent();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            cbDepartment.ItemsSource = context.Departments.ToList();
+            dgEmployee.ItemsSource = context.Employees
+                  .Include(e => e.Department)
+                  .Include(e => e.Role)
+                  .ToList();
+        }
+
+        private void cbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var department = cbDepartment.SelectedItem as Department;
+
+            tbDescription.Text = department?.Description ?? string.Empty;
+            tbManager.Text = department?.Manager?.FullName ?? string.Empty;
+            dgEmployee.ItemsSource = context.Employees
+                   .Where(emp => emp.DepartmentId == department.DepartmentId)
+                   .Include(emp => emp.Role)
+                   .ToList();
         }
     }
 }
