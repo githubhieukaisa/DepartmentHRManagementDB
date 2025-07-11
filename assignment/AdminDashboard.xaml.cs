@@ -41,12 +41,21 @@ namespace assignment
         {
             var department = cbDepartment.SelectedItem as Department;
 
-            tbDescription.Text = department?.Description ?? string.Empty;
-            tbManager.Text = department?.Manager?.FullName ?? string.Empty;
-            dgEmployee.ItemsSource = context.Employees
-                   .Where(emp => emp.DepartmentId == department.DepartmentId)
-                   .Include(emp => emp.Role)
-                   .ToList();
+            if (department != null)
+            {
+                tbDescription.Text = department.Description ?? string.Empty;
+                tbManager.Text = department.Manager?.FullName ?? string.Empty;
+                dgEmployee.ItemsSource = context.Employees
+                    .Where(emp => emp.DepartmentId == department.DepartmentId)
+                    .Include(emp => emp.Role)
+                    .ToList();
+            }
+            else
+            {
+                tbDescription.Text = string.Empty;
+                tbManager.Text = string.Empty;
+                dgEmployee.ItemsSource = null;
+            }
         }
     }
 }
