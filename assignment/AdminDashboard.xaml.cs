@@ -57,5 +57,37 @@ namespace assignment
                 dgEmployee.ItemsSource = null;
             }
         }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void btnManageEmployees_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnManageDepartments_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnManageTeams_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnManageProjects_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnManageTasks_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

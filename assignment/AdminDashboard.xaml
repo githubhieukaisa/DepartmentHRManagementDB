@@ -7,6 +7,22 @@
         Title="AdminDashboard" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Quản lý phòng ban" Grid.Column="1" Click="btnManageDepartments_Click"/>
+                <Button Content="Quản lý nhân viên" Grid.Column="0" Click="btnManageEmployees_Click"/>
+                <Button Content="Quản lý đội nhóm" Grid.Column="2" Click="btnManageTeams_Click"/>
+                <Button Content="Quản lý dự án" Grid.Column="3" Click="btnManageProjects_Click"/>
+                <Button Content="Quản lý nhiệm vụ" Grid.Column="4" Click="btnManageTasks_Click"/>
+                <Button Content="Đăng xuất" Grid.Column="5" Click="btnLogout_Click"/>
+            </Grid>
             <TextBlock Text="Admin Dashboard" FontSize="24" FontWeight="Bold" Margin="10" HorizontalAlignment="Left" />
             <TextBlock Text="Quản lý nhân viên theo phòng ban" FontSize="16" Margin="10" HorizontalAlignment="Left" />
 
