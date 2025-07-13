@@ -17,7 +17,7 @@ namespace assignment
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DepartmentHrmanagementDbContext context= new DepartmentHrmanagementDbContext();
+        private ProjectManagementDbContext context = new ProjectManagementDbContext();
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace assignment
                 MessageBox.Show("Please enter both email and password.");
                 return;
             }
-            var user = context.Employees.FirstOrDefault(emp => emp.Email == email && emp.PasswordHash == password);
+            var user = context.Employees.FirstOrDefault(emp => emp.Email == email && emp.PasswordHash == password && emp.Status.Equals("Active"));
             if(user == null)
             {
                 MessageBox.Show("Invalid email or password.");

@@ -15,7 +15,9 @@ public partial class Project
 
     public DateOnly? EndDate { get; set; }
 
-    public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; } = new List<EmployeeProject>();
+    public int? TeamId { get; set; }
 
-    public virtual ICollection<ProjectProgress> ProjectProgresses { get; set; } = new List<ProjectProgress>();
+    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+
+    public virtual Team? Team { get; set; }
 }

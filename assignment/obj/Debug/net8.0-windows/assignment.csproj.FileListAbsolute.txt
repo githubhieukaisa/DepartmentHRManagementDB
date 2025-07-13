@@ -138,3 +138,13 @@ D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\EmployeeDashboard.baml
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ManagerDashboard.baml
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment.sourcelink.json
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\DepartmentManagementPage.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\EmployeeManagementPage.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\ProjectManagementPage.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\TaskManagementPage.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\TeamManagementPage.g.cs
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\DepartmentManagementPage.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\EmployeeManagementPage.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\ProjectManagementPage.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\TaskManagementPage.baml
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\TeamManagementPage.baml

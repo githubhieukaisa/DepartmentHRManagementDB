@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\App.xaml
-4-1441079959
+9655354438
 11413424753
-151132782351
+22-2117321896
 233-1939103117
-AdminDashboard.xaml;EmployeeDashboard.xaml;MainWindow.xaml;ManagerDashboard.xaml;
+AdminDashboard.xaml;AdminViewModel\DepartmentManagementPage.xaml;AdminViewModel\EmployeeManagementPage.xaml;AdminViewModel\ProjectManagementPage.xaml;AdminViewModel\TaskManagementPage.xaml;AdminViewModel\TeamManagementPage.xaml;EmployeeDashboard.xaml;MainWindow.xaml;ManagerDashboard.xaml;
 
 False
 

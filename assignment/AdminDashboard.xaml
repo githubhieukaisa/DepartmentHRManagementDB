@@ -6,60 +6,32 @@
         mc:Ignorable="d"
         Title="AdminDashboard" Height="450" Width="800">
     <Grid>
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Content="Quản lý phòng ban" Grid.Column="1" Click="btnManageDepartments_Click"/>
-                <Button Content="Quản lý nhân viên" Grid.Column="0" Click="btnManageEmployees_Click"/>
-                <Button Content="Quản lý đội nhóm" Grid.Column="2" Click="btnManageTeams_Click"/>
-                <Button Content="Quản lý dự án" Grid.Column="3" Click="btnManageProjects_Click"/>
-                <Button Content="Quản lý nhiệm vụ" Grid.Column="4" Click="btnManageTasks_Click"/>
-                <Button Content="Đăng xuất" Grid.Column="5" Click="btnLogout_Click"/>
-            </Grid>
-            <TextBlock Text="Admin Dashboard" FontSize="24" FontWeight="Bold" Margin="10" HorizontalAlignment="Left" />
-            <TextBlock Text="Quản lý nhân viên theo phòng ban" FontSize="16" Margin="10" HorizontalAlignment="Left" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Chọn phòng ban:" Grid.Column="0" VerticalAlignment="Center" Margin="10" />
-                <ComboBox x:Name="cbDepartment" Grid.Column="1" Margin="10" Width="200px" HorizontalAlignment="Left"
-                          DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentId" SelectionChanged="cbDepartment_SelectionChanged"></ComboBox>
-            </Grid>
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Mô tả phòng ban:" Grid.Row="0" Grid.Column="0"  Margin="10"></TextBlock>
-                    <TextBox x:Name="tbDescription" Grid.Row="0" Grid.Column="1" Margin="10" Width="300px" HorizontalAlignment="Left" IsEnabled="False"/>
-                    <TextBlock Text="Quản lý:" Grid.Row="1" Grid.Column="0" Margin="10"></TextBlock>
-                    <TextBox x:Name="tbManager" Grid.Row="1" Grid.Column="1" Margin="10" Width="300px" HorizontalAlignment="Left" IsEnabled="False"/>
-                </Grid>
-                <DataGrid Name="dgEmployee" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="FullName" Binding="{Binding FullName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Role" Binding="{Binding Role.RoleName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Department" Binding="{Binding Department.DepartmentName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-        </StackPanel>
+        <TabControl Grid.Row="0" x:Name="tabControl" Width="Auto" HorizontalAlignment="Stretch" SelectionChanged="tabControl_SelectionChanged">
+            <TabItem Header="Quản lý phòng ban">
+                <ContentControl x:Name="DepartmentManagementContent" />
+            </TabItem>
+            <TabItem Header="Quản lý nhân viên">
+                <ContentControl x:Name="EmployeeManagementContent" />
+            </TabItem>
+            <TabItem Header="Quản lý đội nhóm">
+                <ContentControl x:Name="TeamManagementContent" />
+            </TabItem>
+            <TabItem Header="Quản lý dự án">
+                <ContentControl x:Name="ProjectManagementContent" />
+            </TabItem>
+            <TabItem Header="Quản lý nhiệm vụ">
+                <ContentControl x:Name="TaskManagementContent" />
+            </TabItem>
+            <TabItem Header="Đăng xuất">
+                <Button Content="Đăng xuất" Click="btnLogout_Click" />
+            </TabItem>
+        </TabControl>
+        <!-- Nội dung chính của AdminDashboard -->
+        <ContentControl Grid.Row="1" x:Name="MainContent" />
     </Grid>
 </Window>

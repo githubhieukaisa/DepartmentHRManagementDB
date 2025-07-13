@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using assignment.AdminViewModel;
 using assignment.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,40 +22,40 @@ namespace assignment
     /// </summary>
     public partial class AdminDashboard : Window
     {
-        private DepartmentHrmanagementDbContext context = new DepartmentHrmanagementDbContext();
         public AdminDashboard()
         {
             InitializeComponent();
-            LoadData();
+            LoadInitialContent();
         }
 
-        private void LoadData()
+        private void LoadInitialContent()
         {
-            cbDepartment.ItemsSource = context.Departments.ToList();
-            dgEmployee.ItemsSource = context.Employees
-                  .Include(e => e.Department)
-                  .Include(e => e.Role)
-                  .ToList();
+            tabControl.SelectedItem = tabControl.Items[1];
+            MainContent.Content = new EmployeeManagementPage();
         }
 
-        private void cbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var department = cbDepartment.SelectedItem as Department;
-
-            if (department != null)
+            if (tabControl.SelectedItem is TabItem selectedTab)
             {
-                tbDescription.Text = department.Description ?? string.Empty;
-                tbManager.Text = department.Manager?.FullName ?? string.Empty;
-                dgEmployee.ItemsSource = context.Employees
-                    .Where(emp => emp.DepartmentId == department.DepartmentId)
-                    .Include(emp => emp.Role)
-                    .ToList();
-            }
-            else
-            {
-                tbDescription.Text = string.Empty;
-                tbManager.Text = string.Empty;
-                dgEmployee.ItemsSource = null;
+                switch (selectedTab.Header.ToString())
+                {
+                    case "Quản lý phòng ban":
+                        MainContent.Content = new DepartmentManagementPage();
+                        break;
+                    case "Quản lý nhân viên":
+                        MainContent.Content = new EmployeeManagementPage();
+                        break;
+                    case "Quản lý đội nhóm":
+                        MainContent.Content = new TeamManagementPage();
+                        break;
+                    case "Quản lý dự án":
+                        MainContent.Content = new ProjectManagementPage();
+                        break;
+                    case "Quản lý nhiệm vụ":
+                        MainContent.Content = new TaskManagementPage();
+                        break;
+                }
             }
         }
 
@@ -63,31 +64,6 @@ namespace assignment
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
-        }
-
-        private void btnManageEmployees_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnManageDepartments_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnManageTeams_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnManageProjects_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnManageTasks_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

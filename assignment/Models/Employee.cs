@@ -23,13 +23,11 @@ public partial class Employee
 
     public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
 
-    public virtual ICollection<EmployeeProject> EmployeeProjects { get; set; } = new List<EmployeeProject>();
-
-    public virtual ICollection<LeaveRequest> LeaveRequestEmployees { get; set; } = new List<LeaveRequest>();
-
-    public virtual ICollection<LeaveRequest> LeaveRequestManagers { get; set; } = new List<LeaveRequest>();
-
-    public virtual ICollection<ProjectProgress> ProjectProgresses { get; set; } = new List<ProjectProgress>();
-
     public virtual Role? Role { get; set; }
+
+    public virtual ICollection<TaskAssignment> TaskAssignments { get; set; } = new List<TaskAssignment>();
+
+    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+
+    public virtual ICollection<TeamMember> TeamMembers { get; set; } = new List<TeamMember>();
 }

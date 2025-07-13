@@ -5,6 +5,21 @@
     <Compile Update="AdminDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AdminViewModel\DepartmentManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminViewModel\EmployeeManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminViewModel\ProjectManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminViewModel\TaskManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AdminViewModel\TeamManagementPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="EmployeeDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
