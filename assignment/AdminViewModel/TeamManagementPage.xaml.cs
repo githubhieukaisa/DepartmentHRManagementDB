@@ -1,4 +1,5 @@
 ﻿using assignment.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace assignment.AdminViewModel
 
         private void LoadTeams(string? keyword = null)
         {
-            var teams = context.Teams.AsQueryable();
+            var teams = context.Teams.Where(t=> t.Status.Equals("Active")).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
@@ -134,5 +135,66 @@ namespace assignment.AdminViewModel
                 window.Height = 450;
             }
         }
+        private void dgTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var team = dgTeam.SelectedItem as Team;
+            _selectedTeam = team;
+            if (team == null)
+            {
+                return;
+            }
+            var teamMembers = context.TeamMembers.Where(tm=>tm.TeamId==team.TeamId).Include(tm=>tm.Employee).ToList();
+            dgTeamMembers.ItemsSource = teamMembers;
+        }
+
+        private void btnAddMember_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTeam == null)
+            {
+                MessageBox.Show("Please select a team first.");
+                return;
+            }
+
+            var existingMembersIds= context.TeamMembers
+                .Where(tm => tm.TeamId == _selectedTeam.TeamId)
+                .Select(tm => tm.EmployeeId)
+                .ToList();
+
+            var addWindow = new AddTeamMemberWindow(existingMembersIds);
+            addWindow.Owner = Window.GetWindow(this);
+
+            if (addWindow.ShowDialog() == true)
+            {
+                int seelctedEmployeeId = addWindow.SelectedEmployeeId ?? 0;
+                var newMember = new TeamMember
+                {
+                    TeamId = _selectedTeam.TeamId,
+                    EmployeeId = seelctedEmployeeId,
+                    JoinedAt = DateTime.Now
+                };
+                context.TeamMembers.Add(newMember);
+                context.SaveChanges();
+                MessageBox.Show("Member added to team.");
+                dgTeam_SelectionChanged(null, null);
+            }
+        }
+
+        private void btnRemoveMember_Click(object sender, RoutedEventArgs e)
+        {
+            var teamMember = dgTeamMembers.SelectedItem as TeamMember;
+            if (teamMember == null)
+            {
+                MessageBox.Show("Please select a team member to remove.");
+                return;
+            }
+            if (MessageBox.Show("Are you sure you want to remove this member from the team?", "Confirm Removal", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                context.TeamMembers.Remove(teamMember);
+                context.SaveChanges();
+                MessageBox.Show("Member removed from team.");
+                dgTeam_SelectionChanged(null, null);
+            }
+        }
+
     }
 }

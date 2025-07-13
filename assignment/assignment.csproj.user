@@ -5,6 +5,9 @@
     <Compile Update="AdminDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AdminViewModel\AddTeamMemberWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="AdminViewModel\DepartmentManagementPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
