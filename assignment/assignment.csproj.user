@@ -26,8 +26,5 @@
     <Compile Update="EmployeeDashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ManagerDashboard.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 </Project>

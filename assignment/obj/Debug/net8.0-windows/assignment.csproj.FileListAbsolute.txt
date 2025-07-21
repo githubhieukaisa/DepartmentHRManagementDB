@@ -134,9 +134,7 @@ D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminDashboard.baml
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminDashboard.g.cs
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\EmployeeDashboard.g.cs
-D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ManagerDashboard.g.cs
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\EmployeeDashboard.baml
-D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ManagerDashboard.baml
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment.sourcelink.json
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\DepartmentManagementPage.g.cs
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\AdminViewModel\EmployeeManagementPage.g.cs

@@ -56,10 +56,6 @@ public partial class ProjectManagementDbContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Description).HasMaxLength(250);
-
-            entity.HasOne(d => d.Manager).WithMany(p => p.Departments)
-                .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK_Department_Manager");
         });
 
         modelBuilder.Entity<Employee>(entity =>

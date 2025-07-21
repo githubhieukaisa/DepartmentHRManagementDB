@@ -44,12 +44,6 @@ namespace assignment
                 adminDashboard.Show();
                 this.Close();
             }
-            else if (user.RoleId == 2) // Assuming 2 is the role ID for Department Manager
-            {
-                ManagerDashboard managerDashboard = new ManagerDashboard();
-                managerDashboard.Show();
-                this.Close();
-            }
             else  // Assuming 3 is the role ID for Employee
             {
                 EmployeeDashboard employeeDashboard= new EmployeeDashboard();

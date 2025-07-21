@@ -21,8 +21,6 @@ public partial class Employee
 
     public virtual Department? Department { get; set; }
 
-    public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
-
     public virtual Role? Role { get; set; }
 
     public virtual ICollection<TaskAssignment> TaskAssignments { get; set; } = new List<TaskAssignment>();
