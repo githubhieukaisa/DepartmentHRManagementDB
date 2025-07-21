@@ -7,6 +7,27 @@
         mc:Ignorable="d"
         Title="EmployeeDashboard" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="Employee Dashboard" FontSize="24" FontWeight="Bold" Margin="10" HorizontalAlignment="Left"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" x:Name="tabControl" Width="Auto" HorizontalAlignment="Stretch" SelectionChanged="tabControl_SelectionChanged">
+            <TabItem Header="Profile">
+                <ContentControl x:Name="EmployeeProfile" />
+            </TabItem>
+            <TabItem Header="Project">
+                <ContentControl x:Name="EmployeeProject" />
+            </TabItem>
+            <TabItem Header="Task">
+                <ContentControl x:Name="EmployeeTask" />
+            </TabItem>
+            <TabItem Header="Team">
+                <ContentControl x:Name="EmployeeTeam" />
+            </TabItem>
+            <TabItem Header="Đăng xuất">
+                <Button Content="Đăng xuất" Click="btnLogout_Click" />
+            </TabItem>
+        </TabControl>
+        <ContentControl Grid.Row="1" x:Name="MainContent" />
     </Grid>
 </Window>
