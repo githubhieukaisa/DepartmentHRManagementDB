@@ -6,7 +6,23 @@
              xmlns:local="clr-namespace:assignment.EmployeeUseControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="My Projects" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <DataGrid x:Name="dgProjects"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      Height="350">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Project Name" Binding="{Binding ProjectName}" Width="*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="120"/>
+                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="120"/>
+                    <DataGridTextColumn Header="Team" Binding="{Binding TeamName}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </UserControl>

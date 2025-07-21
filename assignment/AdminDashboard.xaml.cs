@@ -22,10 +22,12 @@ namespace assignment
     /// </summary>
     public partial class AdminDashboard : Window
     {
-        public AdminDashboard()
+        private Employee? _selectedEmployee = null;
+        public AdminDashboard(Employee? selectedEmployee)
         {
             InitializeComponent();
             LoadInitialContent();
+            _selectedEmployee = selectedEmployee;
         }
 
         private void LoadInitialContent()

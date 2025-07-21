@@ -1,4 +1,5 @@
-﻿using System;
+﻿using assignment.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,24 @@ namespace assignment.EmployeeUseControl
     /// </summary>
     public partial class EmployeeProfile : UserControl
     {
-        public EmployeeProfile()
+        private ProjectManagementDbContext context = new ProjectManagementDbContext();
+        private Employee? _selectedEmployee = null;
+        public EmployeeProfile(Employee? selectedEmployee)
         {
             InitializeComponent();
+            _selectedEmployee = selectedEmployee;
+            _selectedEmployee.Department = context.Departments.FirstOrDefault(d => d.DepartmentId == _selectedEmployee.DepartmentId);
+            _selectedEmployee.Role = context.Roles.FirstOrDefault(r => r.RoleId == _selectedEmployee.RoleId);
+            LoadProfile();
+        }
+
+        private void LoadProfile()
+        {
+            txtFullName.Text = _selectedEmployee.FullName;
+            txtEmail.Text = _selectedEmployee.Email;
+            txtDepartment.Text = _selectedEmployee.Department.DepartmentName;
+            txtRole.Text = _selectedEmployee.Role.RoleName;
+            txtStatus.Text = _selectedEmployee.Status;
         }
     }
 }

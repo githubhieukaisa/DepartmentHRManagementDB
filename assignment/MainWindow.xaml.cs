@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using assignment.Models;
+using assignment.utility;
+using System.Reflection.Metadata;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using assignment.Models;
 
 namespace assignment
 {
@@ -38,15 +40,15 @@ namespace assignment
                 MessageBox.Show("Invalid email or password.");
                 return;
             }
-            if (user.RoleId == 1) // Assuming 1 is the role ID for Admin
+            if (user.RoleId == ConstantClass.ADMIN_ROLE_ID) // Assuming 1 is the role ID for Admin
             {
-                AdminDashboard adminDashboard = new AdminDashboard();
+                AdminDashboard adminDashboard = new AdminDashboard(user);
                 adminDashboard.Show();
                 this.Close();
             }
             else  // Assuming 3 is the role ID for Employee
             {
-                EmployeeDashboard employeeDashboard= new EmployeeDashboard();
+                EmployeeDashboard employeeDashboard= new EmployeeDashboard(user);
                 employeeDashboard.Show();
                 this.Close();
             }

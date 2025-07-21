@@ -1,4 +1,5 @@
-﻿using System;
+﻿using assignment.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,36 @@ namespace assignment.EmployeeUseControl
     /// </summary>
     public partial class EmployeeTeam : UserControl
     {
-        public EmployeeTeam()
+        private ProjectManagementDbContext context = new();
+        private Employee? _selectedEmployee = null;
+        public EmployeeTeam(Employee? selectedEmployee)
         {
             InitializeComponent();
+            _selectedEmployee = selectedEmployee;
+            LoadTeams();
+        }
+
+        private void LoadTeams()
+        {
+            if (_selectedEmployee == null) return;
+
+            var teams = context.TeamMembers
+                .Where(tm => tm.EmployeeId == _selectedEmployee.EmployeeId)
+                .Join(context.Teams,
+                      tm => tm.TeamId,
+                      t => t.TeamId,
+                      (tm, t) => new
+                      {
+                          t.TeamName,
+                          t.Description,
+                          tm.JoinedAt,
+                          t.CreatedAt,
+                          t.Status,
+                          t.DoneAt
+                      })
+                .ToList();
+
+            dgTeams.ItemsSource = teams;
         }
     }
 }

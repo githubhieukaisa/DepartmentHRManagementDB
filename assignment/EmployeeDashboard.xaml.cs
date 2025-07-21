@@ -1,4 +1,5 @@
 ﻿using assignment.EmployeeUseControl;
+using assignment.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,18 @@ namespace assignment
     /// </summary>
     public partial class EmployeeDashboard : Window
     {
-        public EmployeeDashboard()
+        private Employee? _selectedEmployee = null;
+        public EmployeeDashboard(Employee? selectedEmployee)
         {
             InitializeComponent();
+            _selectedEmployee = selectedEmployee;
             LoadInitialContent();
         }
 
         private void LoadInitialContent()
         {
             tabControl.SelectedItem = tabControl.Items[0];
-            MainContent.Content = new EmployeeProfile();
+            MainContent.Content = new EmployeeProfile(_selectedEmployee);
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -39,19 +42,26 @@ namespace assignment
                 switch (selectedTab.Header.ToString())
                 {
                     case "Profile":
-                        MainContent.Content = new EmployeeProfile();
+                        MainContent.Content = new EmployeeProfile(_selectedEmployee);
                         break;
                     case "Project":
-                        MainContent.Content = new EmployeeProject();
+                        MainContent.Content = new EmployeeProject(_selectedEmployee);
                         break;
                     case "Task":
-                        MainContent.Content = new EmployeeTask();
+                        MainContent.Content = new EmployeeTask(_selectedEmployee);
                         break;
                     case "Team":
-                        MainContent.Content = new EmployeeTeam();
+                        MainContent.Content = new EmployeeTeam(_selectedEmployee);
                         break;
                 }
             }
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

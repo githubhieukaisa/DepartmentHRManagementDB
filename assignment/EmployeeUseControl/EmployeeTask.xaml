@@ -5,8 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:assignment.EmployeeUseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="My Tasks" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <DataGrid x:Name="dgTasks"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      Height="350">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Task Title" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}" Width="*"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding StatusName}" Width="100"/>
+                    <DataGridTextColumn Header="Reporter" Binding="{Binding ReporterName}" Width="150"/>
+                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="120"/>
+                    <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </UserControl>
