@@ -9,12 +9,21 @@
     <Grid Margin="10">
         <StackPanel>
             <TextBlock Text="My Tasks" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
-
-            <DataGrid x:Name="dgTasks"
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                <TextBlock Text="Project: "/>
+                <ComboBox x:Name="cbProjects"
+                          Width="200"
+                          Margin="5,0,10,0"
+                          DisplayMemberPath="ProjectName"
+                          SelectedValuePath="ProjectId"
+                          SelectionChanged="cbProjects_SelectionChanged"/>
+            </StackPanel>
+            <DataGrid x:Name="dgTaskAssignments"
                       AutoGenerateColumns="False"
                       IsReadOnly="False"
                       HeadersVisibility="Column"
-                      Height="350">
+                      Height="350"
+                      CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Task Title" Binding="{Binding Task.Title}" Width="Auto" />
                     <DataGridTextColumn Header="Project" Binding="{Binding Task.Project.ProjectName}" Width="Auto" />
@@ -43,6 +52,24 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="View Partner" Click="btnViewPartner_Click" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid x:Name="dgTasks" Height="350" CanUserAddRows="False" Visibility="Collapsed" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Task ID" Binding="{Binding TaskId}" Width="Auto"/>
+                    <DataGridTextColumn Header="Task Title" Binding="{Binding Title}" Width="Auto"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status.StatusName}" Width="Auto"/>
+                    <DataGridTextColumn Header="Reporter" Binding="{Binding Reporter.FullName}" Width="Auto"/>
+                    <DataGridTextColumn Header="CreateAt" Binding="{Binding CreatedAt}" Width="Auto"/>
+                    <DataGridTextColumn Header="UpdatedAt" Binding="{Binding UpdatedAt}" Width="Auto"/>
+                    <DataGridTemplateColumn Header="Actions" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="View Assign" Click="btnViewAssign_Click" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

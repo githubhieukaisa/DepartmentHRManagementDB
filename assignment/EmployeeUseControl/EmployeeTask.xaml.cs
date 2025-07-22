@@ -25,14 +25,54 @@ namespace assignment.EmployeeUseControl
     {
         private ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Employee? _selectedEmployee = null;
+        private int _selectedProjectId = 0;
+        private bool _isQA = false;
         public EmployeeTask(Employee? selectedEmployee)
         {
             InitializeComponent();
             _selectedEmployee = selectedEmployee;
+            LoadProject();
             LoadTasks();
         }
 
+        private void LoadProject()
+        {
+            var projects= context.Projects
+                .Where(p=> p.Team.TeamMembers.Any(tm=> tm.EmployeeId== _selectedEmployee.EmployeeId))
+                .ToList();
+            cbProjects.ItemsSource = projects;
+            cbProjects.SelectedIndex = 0;
+        }
+
         private void LoadTasks()
+        {
+            string roleNames = context.Departments.Where(d=>d.DepartmentId== _selectedEmployee.DepartmentId)
+                .Select(d => d.DepartmentName)
+                .FirstOrDefault();
+            if (roleNames.Equals("QA"))
+            {
+                _isQA= true;
+                LoadTaskOfQA();
+            }
+            else
+            {
+                LoadTasksOfDeveloperAndTester();
+            }
+        }
+
+        private void LoadTaskOfQA()
+        {
+            var tasks= context.Tasks
+                .Where(t => t.ProjectId == _selectedProjectId)
+                .Include(t => t.Status)
+                .Include(t => t.Reporter)
+                .ToList();
+            dgTaskAssignments.Visibility= Visibility.Collapsed;
+            dgTasks.Visibility = Visibility.Visible;
+            dgTasks.ItemsSource = tasks;
+        }
+
+        private void LoadTasksOfDeveloperAndTester()
         {
             var taskAssignments = context.TaskAssignments
                 .Where(ta => ta.EmployeeId == _selectedEmployee.EmployeeId)
@@ -64,7 +104,7 @@ namespace assignment.EmployeeUseControl
                 taskAssignment.canEditStatus = defaultStatuses
                     .Any(s => s.StatusId == taskAssignment.Task.StatusId);
             }
-            dgTasks.ItemsSource = taskAssignments;
+            dgTaskAssignments.ItemsSource = taskAssignments;
         }
 
         private void ComboStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -94,14 +134,32 @@ namespace assignment.EmployeeUseControl
             if (sender is Button button && button.DataContext is TaskAssignment taskAssignment)
             {
                 var task = taskAssignment.Task;
-                if (task == null || task.Project == null)
-                {
-                    MessageBox.Show("Không có thông tin dự án để hiển thị.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                var viewPartner = new ViewPartner(task.TaskId,false);
-                viewPartner.ShowDialog();
+                redirecToAssignWindow(task, false);
             }
+        }
+
+        private void btnViewAssign_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Models.Task task)
+            {
+                redirecToAssignWindow(task, true);
+            }
+        }
+        private void redirecToAssignWindow(Models.Task task, bool canEdit)
+        {
+            if (task == null || task.Project == null)
+            {
+                MessageBox.Show("Không có thông tin dự án để hiển thị.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var viewPartner = new ViewPartner(task.TaskId, canEdit);
+            viewPartner.ShowDialog();
+        }
+
+        private void cbProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbProjects.SelectedValue == null) return;
+            _selectedProjectId= (int)cbProjects.SelectedValue;
         }
     }
 }
