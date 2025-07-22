@@ -34,13 +34,26 @@ namespace assignment.AdminViewModel
 
         private void LoadProjects(string? keyword = null)
         {
-            var projects = context.Projects
+            var projectsQuery = context.Projects
                 .Include(p => p.Team)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                projects = projects.Where(p => p.ProjectName.Contains(keyword));
+                projectsQuery = projectsQuery.Where(p => p.ProjectName.Contains(keyword));
+            }
+            var projects = projectsQuery.ToList();
+            foreach (var project in projects)
+            {
+                var team= context.Teams.FirstOrDefault(t => t.TeamId == project.TeamId);
+                if (team == null)
+                {
+                    project.isSuccessful = false;
+                }
+                else
+                {
+                    project.isSuccessful = team.DoneAt != null;
+                }
             }
 
             dgProject.ItemsSource = projects.ToList();

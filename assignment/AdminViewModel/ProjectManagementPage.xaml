@@ -63,6 +63,7 @@
                     <DataGridTextColumn Header="Team" Binding="{Binding Team.TeamName}" />
                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
                     <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" />
+                    <DataGridTextColumn Header="Status" Binding="{Binding status}" />
                 </DataGrid.Columns>
             </DataGrid>
 

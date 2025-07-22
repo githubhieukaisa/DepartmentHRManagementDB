@@ -125,6 +125,14 @@ namespace assignment.AdminViewModel
                 return;
             }
 
+            var team= context.Teams
+                .FirstOrDefault(t=>t.TeamMembers.Any(tm => tm.EmployeeId == selectedEmployee.EmployeeId) && t.DoneAt == null);
+            if (team != null)
+            {
+                MessageBox.Show($"This employee is a member of an active team ({team.TeamName}). Please remove them from the team before deactivating.");
+                return;
+            }
+
             if (MessageBox.Show($"Are you sure you want to deactive {selectedEmployee.FullName}?", "Confirm Deactivation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 selectedEmployee.Status = "Inactive";
