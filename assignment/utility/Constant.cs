@@ -23,9 +23,20 @@ namespace assignment.utility
             ADMIN_ROLE_ID,
             EMPLOYEE_ROLE_ID
         };
-        public readonly static int secondaryRoleId = context.Roles
-            .Where(r => !mainRoleId.Contains(r.RoleId))
-            .Select(r => r.RoleId)
-            .FirstOrDefault();
+        public readonly static Role[] secondaryRoleId = context.Roles
+            .Where(r => !mainRoleId.Contains(r.RoleId)).ToArray();
+        public readonly static List<Models.TaskStatus> statusOfDev = context.TaskStatuses
+            .Where(s => s.StatusName == "In Progress" || s.StatusName == "Done")
+            .ToList();
+        public readonly static List<Models.TaskStatus> statusOfTester = context.TaskStatuses
+            .Where(s => s.StatusName == "Ready for Testing" || s.StatusName == "Verified" || s.StatusName == "Rejected").ToList();
+        public readonly static List<Models.TaskStatus> statusOfQA = context.TaskStatuses.Where(s=> s.StatusName=="To Do").ToList();
+
+        public readonly static Dictionary<string, List<Models.TaskStatus>> roleStatusMap = new()
+        {
+            { "Developer", statusOfDev },
+            { "Tester", statusOfTester },
+            { "QA", statusOfQA }
+        };
     }
 }

@@ -61,7 +61,7 @@ namespace assignment.EmployeeUseControl {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/assignment;V1.0.0.0;component/employeeusecontrol/employeeteam.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/assignment;component/employeeusecontrol/employeeteam.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\EmployeeUseControl\EmployeeTeam.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

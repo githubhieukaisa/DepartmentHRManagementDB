@@ -21,7 +21,7 @@ namespace assignment.AdminViewModel
     /// </summary>
     public partial class DepartmentManagementPage : UserControl
     {
-        private readonly ProjectManagementDbContext context = new();
+        private readonly ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Department? _selectedDepartment = null;
 
         public DepartmentManagementPage()

@@ -19,7 +19,7 @@ namespace assignment
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ProjectManagementDbContext context = new ProjectManagementDbContext();
+        private ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace assignment
                 adminDashboard.Show();
                 this.Close();
             }
-            else  // Assuming 3 is the role ID for Employee
+            else
             {
                 EmployeeDashboard employeeDashboard= new EmployeeDashboard(user);
                 employeeDashboard.Show();

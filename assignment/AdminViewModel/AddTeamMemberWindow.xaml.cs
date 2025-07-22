@@ -20,7 +20,7 @@ namespace assignment.AdminViewModel
     /// </summary>
     public partial class AddTeamMemberWindow : Window
     {
-        private readonly ProjectManagementDbContext context = new();
+        private readonly ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         public int? SelectedEmployeeId { get; private set; }
         private List<int?> existingMembersIdsemployees;
 

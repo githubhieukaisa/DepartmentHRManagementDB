@@ -1,4 +1,5 @@
 ﻿using assignment.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static assignment.utility.ConstantClass;
 
 namespace assignment.EmployeeUseControl
 {
@@ -21,7 +23,7 @@ namespace assignment.EmployeeUseControl
     /// </summary>
     public partial class EmployeeTask : UserControl
     {
-        private ProjectManagementDbContext context = new();
+        private ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Employee? _selectedEmployee = null;
         public EmployeeTask(Employee? selectedEmployee)
         {
@@ -32,35 +34,30 @@ namespace assignment.EmployeeUseControl
 
         private void LoadTasks()
         {
-            var tasks = context.TaskAssignments
-                    .Where(ta => ta.EmployeeId == _selectedEmployee.EmployeeId)
-                    .Join(context.Tasks,
-                          ta => ta.TaskId,
-                          t => t.TaskId,
-                          (ta, t) => new { ta, t })
-                    .Join(context.TaskStatuses,
-                          temp => temp.t.StatusId,
-                          s => s.StatusId,
-                          (temp, s) => new { temp.ta, temp.t, Status = s })
-                    .Join(context.Projects,
-                          temp => temp.t.ProjectId,
-                          p => p.ProjectId,
-                          (temp, p) => new { temp.ta, temp.t, temp.Status, Project = p })
-                    .Join(context.Employees,
-                          temp => temp.t.ReporterId,
-                          r => r.EmployeeId,
-                          (temp, r) => new
-                          {
-                              temp.t.Title,
-                              temp.t.Description,
-                              ProjectName = temp.Project.ProjectName,
-                              StatusName = temp.Status.StatusName,
-                              ReporterName = r.FullName,
-                              temp.t.CreatedAt,
-                              temp.t.UpdatedAt
-                          })
-                    .ToList();
-            dgTasks.ItemsSource = tasks;
+            var taskAssignments = context.TaskAssignments
+                .Where(ta => ta.EmployeeId == _selectedEmployee.EmployeeId)
+                .Include(ta => ta.Task)
+                .ThenInclude(t => t.Project)
+                .ToList();
+            foreach (var taskAssignment in taskAssignments)
+            {
+                taskAssignment.allStatusAvailable = roleStatusMap[context.Roles.FirstOrDefault(r=> r.RoleId == taskAssignment.RoleId).RoleName];
+                if (taskAssignment.Task == null)
+                {
+                    continue;
+                }
+                if (!taskAssignment.allStatusAvailable.Any(status => status.StatusId == taskAssignment.Task.StatusId))
+                {
+                    var statusToAdd = context.TaskStatuses.FirstOrDefault(s => s.StatusId == taskAssignment.Task.StatusId);
+                    if (statusToAdd != null)
+                    {
+                        taskAssignment.allStatusAvailable.Add(statusToAdd);
+                    }
+                }
+                taskAssignment.Task.Reporter = context.Employees
+                    .FirstOrDefault(e => e.EmployeeId == taskAssignment.Task.ReporterId);
+            }
+            dgTasks.ItemsSource = taskAssignments;
         }
     }
 }

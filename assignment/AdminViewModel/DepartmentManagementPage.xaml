@@ -52,7 +52,6 @@
 
             <!-- Các nút thao tác -->
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button Content="Add Department" Click="btnAdd_Click" Margin="5"/>
                 <Button Content="Edit Department" Click="btnEdit_Click" Margin="5"/>
             </StackPanel>
         </StackPanel>

@@ -21,7 +21,7 @@ namespace assignment.AdminViewModel
     /// </summary>
     public partial class EmployeeManagementPage : UserControl
     {
-        private ProjectManagementDbContext context = new ProjectManagementDbContext();
+        private ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Employee? _selectedEmployee=null;
         public EmployeeManagementPage()
         {

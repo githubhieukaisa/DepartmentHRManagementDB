@@ -22,7 +22,7 @@ namespace assignment.AdminViewModel
     /// </summary>
     public partial class TeamManagementPage : UserControl
     {
-        private readonly ProjectManagementDbContext context = new();
+        private readonly ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Team? _selectedTeam = null;
 
         public TeamManagementPage()

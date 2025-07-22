@@ -21,7 +21,7 @@ namespace assignment.EmployeeUseControl
     /// </summary>
     public partial class EmployeeTeam : UserControl
     {
-        private ProjectManagementDbContext context = new();
+        private ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Employee? _selectedEmployee = null;
         public EmployeeTeam(Employee? selectedEmployee)
         {

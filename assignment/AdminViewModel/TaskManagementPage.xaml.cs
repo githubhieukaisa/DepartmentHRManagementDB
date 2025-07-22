@@ -23,7 +23,7 @@ namespace assignment.AdminViewModel
     /// </summary>
     public partial class TaskManagementPage : UserControl
     {
-        private readonly ProjectManagementDbContext context = new();
+        private readonly ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
         private Task? _selectedTask = null;
 
         public TaskManagementPage()

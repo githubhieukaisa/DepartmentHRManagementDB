@@ -16,13 +16,16 @@
                       HeadersVisibility="Column"
                       Height="350">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Task Title" Binding="{Binding Title}" Width="*"/>
-                    <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}" Width="*"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding StatusName}" Width="100"/>
-                    <DataGridTextColumn Header="Reporter" Binding="{Binding ReporterName}" Width="150"/>
-                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="120"/>
-                    <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="120"/>
+                    <DataGridTextColumn Header="Task Title" Binding="{Binding Task.Title}" Width="Auto"/>
+                    <DataGridTextColumn Header="Project" Binding="{Binding Task.Project.ProjectName}" Width="Auto"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Task.Description}" Width="Auto"/>
+                    <DataGridComboBoxColumn Header="Priority" 
+                                          ItemsSource="{Binding allStatusAvailable}" 
+                                          DisplayMemberPath="StatusName" SelectedValuePath="StatusId"
+                                          Width="Auto"/>
+                    <DataGridTextColumn Header="Reporter" Binding="{Binding Task.Reporter.FullName}" Width="Auto"/>
+                    <DataGridTextColumn Header="Created At" Binding="{Binding Task.CreatedAt}" Width="Auto"/>
+                    <DataGridTextColumn Header="Updated At" Binding="{Binding Task.UpdatedAt}" Width="Auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

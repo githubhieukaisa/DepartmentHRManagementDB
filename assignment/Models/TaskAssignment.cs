@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace assignment.Models;
 
@@ -15,6 +16,8 @@ public partial class TaskAssignment
 
     public DateTime? AssignedAt { get; set; }
 
+    [NotMapped]
+    public List<TaskStatus> allStatusAvailable { get; set; }
     public virtual Employee? Employee { get; set; }
 
     public virtual Role? Role { get; set; }

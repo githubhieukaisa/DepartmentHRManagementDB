@@ -101,7 +101,7 @@ namespace assignment {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/assignment;V1.0.0.0;component/employeedashboard.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/assignment;component/employeedashboard.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\EmployeeDashboard.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
