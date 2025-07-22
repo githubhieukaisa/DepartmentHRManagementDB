@@ -136,6 +136,7 @@ namespace assignment.EmployeeUseControl
             }
             context.TaskAssignments.Remove(taskAssignment);
             context.SaveChanges();
+            MessageBox.Show("Đã xóa partner khỏi task thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             LoadCbEmployee();
             LoadData();
         }

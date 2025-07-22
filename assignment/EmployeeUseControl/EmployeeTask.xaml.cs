@@ -27,6 +27,7 @@ namespace assignment.EmployeeUseControl
         private Employee? _selectedEmployee = null;
         private int _selectedProjectId = 0;
         private bool _isQA = false;
+        private bool _isSuccessProject = false;
         public EmployeeTask(Employee? selectedEmployee)
         {
             InitializeComponent();
@@ -101,14 +102,15 @@ namespace assignment.EmployeeUseControl
                 var defaultStatuses = roleDefaultStatusMap[context.Roles
                     .FirstOrDefault(r => r.RoleId == taskAssignment.RoleId)?.RoleName];
                 if (defaultStatuses == null) continue;
-                taskAssignment.canEditStatus = defaultStatuses
-                    .Any(s => s.StatusId == taskAssignment.Task.StatusId);
+                taskAssignment.canEditStatus = !_isSuccessProject &&
+                    defaultStatuses.Any(s => s.StatusId == taskAssignment.Task.StatusId);
             }
             dgTaskAssignments.ItemsSource = taskAssignments;
         }
 
         private void ComboStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_isSuccessProject) return;
             if (sender is ComboBox comboBox && comboBox.SelectedValue is int selectedStatusId)
             {
                 if (comboBox.DataContext is not TaskAssignment taskAssignment) return;
@@ -142,7 +144,8 @@ namespace assignment.EmployeeUseControl
         {
             if (sender is Button button && button.DataContext is Models.Task task)
             {
-                redirecToAssignWindow(task, true);
+                bool canEdit = !_isSuccessProject;
+                redirecToAssignWindow(task, canEdit);
             }
         }
         private void redirecToAssignWindow(Models.Task task, bool canEdit)
@@ -160,6 +163,18 @@ namespace assignment.EmployeeUseControl
         {
             if (cbProjects.SelectedValue == null) return;
             _selectedProjectId= (int)cbProjects.SelectedValue;
+            var team= context.Projects
+                .Where(p => p.ProjectId == _selectedProjectId)
+                .Select(p => p.Team)
+                .FirstOrDefault();
+            if(team.DoneAt==null)
+            {
+                _isSuccessProject = false;
+            }
+            else
+            {
+                _isSuccessProject = true;
+            }
         }
     }
 }

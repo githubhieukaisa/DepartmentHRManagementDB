@@ -20,7 +20,14 @@
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="120"/>
                     <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="120"/>
-                    <DataGridTextColumn Header="Team" Binding="{Binding TeamName}" Width="150"/>
+                    <DataGridTextColumn Header="Team" Binding="{Binding Team.TeamName}" Width="150"/>
+                    <DataGridTemplateColumn Header="Actions">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Mark as done" Click="btnMarkAsDone_Click" Visibility="Visible"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
