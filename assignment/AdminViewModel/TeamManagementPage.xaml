@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:assignment.AdminViewModel"
-             mc:Ignorable="d" d:DesignWidth="800" Height="631">
+             mc:Ignorable="d" d:DesignWidth="800" Height="650">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -59,6 +59,7 @@
                     <DataGridTextColumn Header="Team Name" Binding="{Binding TeamName}" />
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                     <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" />
+                    <DataGridTextColumn Header="Done At" Binding="{Binding DoneAt}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -79,6 +80,7 @@
                         <DataGridTextColumn Header="Full Name" Binding="{Binding Employee.FullName}" />
                         <DataGridTextColumn Header="Email" Binding="{Binding Employee.Email}" />
                         <DataGridTextColumn Header="JoinedAt" Binding="{Binding JoinedAt}" />
+                        <DataGridTextColumn Header="Role" Binding="{Binding Employee.Department.DepartmentName}" />
                     </DataGrid.Columns>
                 </DataGrid>
 

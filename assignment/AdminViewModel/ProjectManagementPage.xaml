@@ -64,6 +64,13 @@
                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
                     <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" />
                     <DataGridTextColumn Header="Status" Binding="{Binding status}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Add Team" Click="btnAddTeam_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -71,6 +78,26 @@
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Button Content="Add Project" Click="btnAdd_Click" Margin="5"/>
                 <Button Content="Edit Project" Click="btnEdit_Click" Margin="5"/>
+            </StackPanel>
+
+            <StackPanel x:Name="formAddTeam" Visibility="Collapsed" Margin="10">
+                <TextBlock Text="Assign Team to Project" FontSize="18" FontWeight="Bold" Margin="0,10,0,5"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Select Team:" Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cmbAssignTeam" Grid.Row="0" Grid.Column="1" Margin="5"
+                  DisplayMemberPath="TeamName" SelectedValuePath="TeamId"/>
+
+                    <Button Content="Save" Grid.Row="1" Grid.ColumnSpan="2" Width="100" Margin="5" Click="btnSaveAssignTeam_Click"/>
+                </Grid>
             </StackPanel>
         </StackPanel>
     </Grid>

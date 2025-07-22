@@ -132,7 +132,7 @@ namespace assignment.AdminViewModel
             var window = Window.GetWindow(this);
             if (window != null)
             {
-                window.Height = 450;
+                window.Height = 650;
             }
         }
         private void dgTeam_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -143,7 +143,9 @@ namespace assignment.AdminViewModel
             {
                 return;
             }
-            var teamMembers = context.TeamMembers.Where(tm=>tm.TeamId==team.TeamId).Include(tm=>tm.Employee).ToList();
+            var teamMembers = context.TeamMembers.Where(tm=>tm.TeamId==team.TeamId).Include(tm=>tm.Employee)
+                .ThenInclude(e=>e.Department)
+                .ToList();
             dgTeamMembers.ItemsSource = teamMembers;
         }
 
@@ -187,6 +189,26 @@ namespace assignment.AdminViewModel
                 MessageBox.Show("Please select a team member to remove.");
                 return;
             }
+            var taskAssignments = context.TaskAssignments
+                .Include(ta => ta.Task)
+                .ThenInclude(t => t.Project)
+                .ThenInclude(p => p.Team)
+                .Where(ta =>
+                    ta.EmployeeId == teamMember.EmployeeId &&
+                    ta.Task.Project.Team.DoneAt == null
+                )
+                .ToList();
+            if (taskAssignments.Any())
+            {
+                MessageBox.Show("This member has task assignments and cannot be removed from the team.");
+                return;
+            }
+            if (teamMember.Employee.Department.DepartmentName=="QA")
+            {
+                MessageBox.Show("This member is from the QA department and cannot be removed from the team.");
+                return;
+            }
+
             if (MessageBox.Show("Are you sure you want to remove this member from the team?", "Confirm Removal", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 context.TeamMembers.Remove(teamMember);

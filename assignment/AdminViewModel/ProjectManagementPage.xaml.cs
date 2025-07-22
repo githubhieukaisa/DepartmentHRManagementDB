@@ -23,6 +23,7 @@ namespace assignment.AdminViewModel
     public partial class ProjectManagementPage : UserControl
     {
         private readonly ProjectManagementDbContext context = ProjectManagementDbContext.Instance;
+        private Project? _projectToAssignTeam = null;
         private Project? _selectedProject = null;
 
         public ProjectManagementPage()
@@ -169,6 +170,51 @@ namespace assignment.AdminViewModel
             }
         }
 
+        private void btnAddTeam_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var project = button?.DataContext as Project;
+
+            if (project == null)
+            {
+                MessageBox.Show("Không thể xác định project.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (project.TeamId != null)
+            {
+                MessageBox.Show("Project này đã có team.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _projectToAssignTeam = project;
+            formAddTeam.Visibility = Visibility.Visible;
+
+            // Load danh sách team chưa được assign
+            var availableTeams = context.Teams
+                .Where(t => !context.Projects.Any(p => p.TeamId == t.TeamId))
+                .ToList();
+
+            cmbAssignTeam.ItemsSource = availableTeams;
+            cmbAssignTeam.SelectedIndex = 0;
+        }
+        private void btnSaveAssignTeam_Click(object sender, RoutedEventArgs e)
+        {
+            if (_projectToAssignTeam == null || cmbAssignTeam.SelectedValue == null)
+                return;
+
+            int selectedTeamId = (int)cmbAssignTeam.SelectedValue;
+            _projectToAssignTeam.TeamId = selectedTeamId;
+
+            context.Projects.Update(_projectToAssignTeam);
+            context.SaveChanges();
+
+            MessageBox.Show("Team assigned to project.");
+            formAddTeam.Visibility = Visibility.Collapsed;
+            _projectToAssignTeam = null;
+
+            LoadProjects();
+        }
         private void resizeToOrigin()
         {
             var window = Window.GetWindow(this);

@@ -50,6 +50,7 @@ namespace assignment
                         break;
                     case "Quản lý đội nhóm":
                         MainContent.Content = new TeamManagementPage();
+                        this.Height = 700;
                         break;
                     case "Quản lý dự án":
                         MainContent.Content = new ProjectManagementPage();

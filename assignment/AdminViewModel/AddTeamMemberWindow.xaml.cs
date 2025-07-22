@@ -28,6 +28,14 @@ namespace assignment.AdminViewModel
         {
             InitializeComponent();
             this.existingMembersIdsemployees = existingMembersIdsemployees;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            cmbDepartments.ItemsSource = context.Departments
+                .ToList();
+            cmbDepartments.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -46,11 +54,21 @@ namespace assignment.AdminViewModel
 
         private void cmbDepartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (cmbDepartments.SelectedValue == null) return;
             int selectedDepartmentId = (int)cmbDepartments.SelectedValue;
+            var busyEmployeeIds = context.TeamMembers
+                .Where(tm => tm.Team.DoneAt == null)
+                .Select(tm => tm.EmployeeId)
+                .Distinct()
+                .ToList();
             var employees = context.Employees
-                .Where(emp => emp.DepartmentId == selectedDepartmentId && !existingMembersIdsemployees.Contains(emp.EmployeeId))
+                .Where(emp =>
+                    emp.DepartmentId == selectedDepartmentId &&
+                    !existingMembersIdsemployees.Contains(emp.EmployeeId) &&
+                    !busyEmployeeIds.Contains(emp.EmployeeId))
                 .ToList();
             cmbEmployees.ItemsSource = employees;
+            cmbEmployees.SelectedIndex = 0;
         }
     }
 }

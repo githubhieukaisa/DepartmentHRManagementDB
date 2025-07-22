@@ -77,7 +77,7 @@ namespace assignment.AdminViewModel
             }
 
             formEmployeeManagement.Visibility = Visibility.Visible;
-            var roles = context.Roles.Where(r => r.RoleId == 2 || r.RoleId == 3).ToList();
+            var roles = context.Roles.Where(r => r.RoleId == 2).ToList();
             cmbRole.ItemsSource = roles;
             if(roleId.HasValue)
             {
