@@ -198,6 +198,18 @@ namespace assignment.AdminViewModel
             {
                 errorList.Add(errorMessage);
             }
+            string password;
+            if(!Validate(txtPassword.Text.Trim(), s => s, 
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length >= 6,"Password không được ít hơn 6 ký tự"),
+                    new ValidationRule<string>(s => s.Length <= 20,"Password không được quá 20 ký tự")
+                }, 
+                out errorMessage, out password, "Password"))
+            {
+                errorList.Add(errorMessage);
+            }
+
             int roleId = (int)cmbRole.SelectedValue;
             int departmentId = (int)cmbDepartment.SelectedValue;
             if(errorList.Count > 0)
@@ -218,7 +230,7 @@ namespace assignment.AdminViewModel
                 {
                     FullName = fullname,
                     Email = email,
-                    PasswordHash = txtPassword.Text.Trim(),
+                    PasswordHash = password,
                     RoleId = roleId,
                     DepartmentId = departmentId,
                     Status = "Active"
