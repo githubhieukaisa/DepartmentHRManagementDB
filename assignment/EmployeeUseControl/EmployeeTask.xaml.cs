@@ -70,6 +70,7 @@ namespace assignment.EmployeeUseControl
                 .ToList();
             dgTaskAssignments.Visibility= Visibility.Collapsed;
             dgTasks.Visibility = Visibility.Visible;
+            btnAddTask.Visibility = Visibility.Visible;
             dgTasks.ItemsSource = tasks;
         }
 
@@ -175,6 +176,50 @@ namespace assignment.EmployeeUseControl
             {
                 _isSuccessProject = true;
             }
+        }
+
+        private void btnSaveTask_Click(object sender, RoutedEventArgs e)
+        {
+            string title = txtTaskTitle.Text.Trim();
+            string description = txtDescription.Text.Trim();
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var newTask = new Models.Task
+            {
+                Title = title,
+                Description = description,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                ReporterId = _selectedEmployee.EmployeeId,
+                ProjectId = _selectedProjectId,
+                StatusId = 1
+            };
+            context.Tasks.Add(newTask);
+            context.SaveChanges();
+            MessageBox.Show("Thêm task thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            formAddTask.Visibility = Visibility.Collapsed;
+            txtTaskTitle.Text = "";
+            txtDescription.Text = "";
+            btnAddTask.Visibility = Visibility.Visible;
+            LoadTasks();
+        }
+
+        private void btnCancelTask_Click(object sender, RoutedEventArgs e)
+        {
+            formAddTask.Visibility = Visibility.Collapsed;
+            txtTaskTitle.Text = "";
+            txtDescription.Text = "";
+            btnAddTask.Visibility = Visibility.Visible;
+        }
+
+        private void btnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+            formAddTask.Visibility = Visibility.Visible;
+            btnAddTask.Visibility = Visibility.Collapsed;
         }
     }
 }

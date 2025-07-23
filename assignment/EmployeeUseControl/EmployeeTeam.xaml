@@ -15,12 +15,12 @@
                       IsReadOnly="True"
                       Height="350">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Team Name" Binding="{Binding TeamName}" Width="*"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
-                    <DataGridTextColumn Header="Joined At" Binding="{Binding JoinedAt}" Width="120"/>
-                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="120"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
-                    <DataGridTextColumn Header="Done At" Binding="{Binding DoneAt}" Width="120"/>
+                    <DataGridTextColumn Header="Team Name" Binding="{Binding TeamName}" Width="Auto"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                    <DataGridTextColumn Header="Joined At" Binding="{Binding JoinedAt}" Width="Auto"/>
+                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                    <DataGridTextColumn Header="Done At" Binding="{Binding DoneAt}" Width="Auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

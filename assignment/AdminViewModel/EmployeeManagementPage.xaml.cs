@@ -65,10 +65,10 @@ namespace assignment.AdminViewModel
                 return;
             }
             _selectedEmployee=selectedEmployee;
-            setUpFormManagement("Edit Employee", selectedEmployee.FullName, selectedEmployee.Email,selectedEmployee.RoleId,selectedEmployee.DepartmentId,"Save");
+            setUpFormManagement("Edit Employee", selectedEmployee.FullName, selectedEmployee.Email,selectedEmployee.PasswordHash,selectedEmployee.RoleId,selectedEmployee.DepartmentId,"Save");
         }
 
-        private void setUpFormManagement(string header="Add new Employee", string? fullname="", string? email="", int? roleId=null, int? departmentId=null, string btnContent="Add")
+        private void setUpFormManagement(string header="Add new Employee", string? fullname="", string? email="",string? password="", int? roleId=null, int? departmentId=null, string btnContent="Add")
         {
             var window = Window.GetWindow(this);
             if (window != null)
@@ -107,6 +107,7 @@ namespace assignment.AdminViewModel
             headerOfForm.Text = header;
             txtFullName.Text = fullname;
             txtEmail.Text = email;
+            txtPassword.Text = password;
             btnManagement.Content = btnContent;
         }
 
@@ -187,6 +188,7 @@ namespace assignment.AdminViewModel
                 {
                     FullName = fullname,
                     Email = email,
+                    PasswordHash = txtPassword.Text.Trim(),
                     RoleId = roleId,
                     DepartmentId = departmentId,
                     Status = "Active"
@@ -199,6 +201,7 @@ namespace assignment.AdminViewModel
             {
                 _selectedEmployee.FullName = fullname;
                 _selectedEmployee.Email = email;
+                _selectedEmployee.PasswordHash = txtPassword.Text.Trim();
                 _selectedEmployee.RoleId = roleId;
                 _selectedEmployee.DepartmentId = departmentId;
                 context.Employees.Update(_selectedEmployee);

@@ -42,17 +42,33 @@ namespace assignment.EmployeeUseControl
                 .Where(p => teamIds.Contains(p.TeamId))
                 .Include(p => p.Team)
                 .ToList();
-            dgProjects.ItemsSource = projects;
+            var projectDisplays = new List<ProjectDisplay>();
+            foreach(var project in projects)
+            {
+                var isQA = context.Departments.Where(d => d.DepartmentId == _selectedEmployee.DepartmentId)
+                    .Select(d => d.DepartmentName)
+                    .FirstOrDefault() == "QA";
+
+                bool isDone = project.Team?.DoneAt != null;
+
+                projectDisplays.Add(new ProjectDisplay
+                {
+                    Project = project,
+                    ShowMarkAsDone = isQA && !isDone
+                });
+            }
+            dgProjects.ItemsSource = projectDisplays;
         }
 
         private void btnMarkAsDone_Click(object sender, RoutedEventArgs e)
         {
-            var project= dgProjects.SelectedItem as Project;
-            if(project == null)
+            var projectDisplay= dgProjects.SelectedItem as ProjectDisplay;
+            if(projectDisplay == null)
             {
                 MessageBox.Show("Please select a project to mark as done.");
                 return;
             }
+            var project = projectDisplay.Project;
             var tasks= context.Tasks
                 .Where(t => t.ProjectId == project.ProjectId)
                 .Include(t => t.Status)

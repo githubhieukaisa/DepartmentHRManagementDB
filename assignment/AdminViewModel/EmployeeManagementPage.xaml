@@ -19,16 +19,19 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Full Name:" Grid.Row="0" Grid.Column="0" Margin="5" />
                     <TextBox x:Name="txtFullName" Grid.Row="0" Grid.Column="1" Margin="5" Width="200" />
                     <TextBlock Text="Email:" Grid.Row="1" Grid.Column="0" Margin="5" />
                     <TextBox x:Name="txtEmail" Grid.Row="1" Grid.Column="1" Margin="5" Width="200" />
-                    <TextBlock Text="Role:" Grid.Row="2" Grid.Column="0" Margin="5" />
-                    <ComboBox x:Name="cmbRole" Grid.Row="2" Grid.Column="1" Margin="5" Width="200" DisplayMemberPath="RoleName" SelectedValuePath="RoleId"/>
-                    <TextBlock Text="Department:" Grid.Row="3" Grid.Column="0" Margin="5" />
-                    <ComboBox x:Name="cmbDepartment" Grid.Row="3" Grid.Column="1" Margin="5" Width="200" DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentId"/>
-                    <Button Name="btnManagement" Content="Add" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Click="btnManagement_Click" Width="100" />
+                    <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" Margin="5" />
+                    <TextBox x:Name="txtPassword" Grid.Row="2" Grid.Column="1" Margin="5" Width="200" />
+                    <TextBlock Text="Role:" Grid.Row="3" Grid.Column="0" Margin="5" />
+                    <ComboBox x:Name="cmbRole" Grid.Row="3" Grid.Column="1" Margin="5" Width="200" DisplayMemberPath="RoleName" SelectedValuePath="RoleId"/>
+                    <TextBlock Text="Department:" Grid.Row="4" Grid.Column="0" Margin="5" />
+                    <ComboBox x:Name="cmbDepartment" Grid.Row="4" Grid.Column="1" Margin="5" Width="200" DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentId"/>
+                    <Button Name="btnManagement" Content="Add" Grid.Row="5" Grid.ColumnSpan="2" Margin="5" Click="btnManagement_Click" Width="100" />
                 </Grid>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
