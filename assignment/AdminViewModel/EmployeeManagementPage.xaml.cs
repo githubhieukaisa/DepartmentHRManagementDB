@@ -1,4 +1,5 @@
 ﻿using assignment.Models;
+using assignment.utility;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static assignment.utility.Validation;
 
 namespace assignment.AdminViewModel
 {
@@ -171,10 +173,38 @@ namespace assignment.AdminViewModel
 
         private void btnManagement_Click(object sender, RoutedEventArgs e)
         {
-            string fullname = txtFullName.Text.Trim();
-            string email = txtEmail.Text.Trim();
+            var errorList = new List<string>();
+            string fullname;
+            if(!Validate(txtFullName.Text.Trim(), s => CapitalizeEachWord(s), 
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length >= 10,"Full Name không được ít hơn 10 ký tự"),
+                    new ValidationRule<string>(s => s.Length <= 50,"Full Name không được quá 50 ký tự"),
+                    new ValidationRule<string>(s => s.All(c => char.IsLetter(c) || c==' '),"Full Name chỉ được chứa chữ cái hoặc space")
+                }, 
+                out string errorMessage, out fullname, "Full Name"))
+            {
+                errorList.Add(errorMessage);
+            }
+            string email;
+            if(!Validate(txtEmail.Text.Trim(), s => s, 
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length >= 10,"Email không được ít hơn 10 ký tự"),
+                    new ValidationRule<string>(s => s.Length <= 50,"Email không được quá 50 ký tự"),
+                    new ValidationRule<string>(s => s.Contains("@") && s.Contains("."), "Email phải chứa '@' và '.'")
+                }, 
+                out errorMessage, out email, "Email"))
+            {
+                errorList.Add(errorMessage);
+            }
             int roleId = (int)cmbRole.SelectedValue;
             int departmentId = (int)cmbDepartment.SelectedValue;
+            if(errorList.Count > 0)
+            {
+                MessageBox.Show(string.Join("\n", errorList));
+                return;
+            }
             
             if (string.IsNullOrWhiteSpace(fullname) || string.IsNullOrWhiteSpace(email))
             {

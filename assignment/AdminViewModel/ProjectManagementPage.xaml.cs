@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static assignment.utility.Validation;
+using assignment.utility;
 
 namespace assignment.AdminViewModel
 {
@@ -84,21 +86,51 @@ namespace assignment.AdminViewModel
 
         private void btnSaveProject_Click(object sender, RoutedEventArgs e)
         {
-            string name = txtProjectName.Text.Trim();
-            string desc = txtDescription.Text.Trim();
-            DateTime? start = dpStartDate.SelectedDate;
-            DateTime? end = dpEndDate.SelectedDate;
-            int? teamId = (int?)cmbTeam.SelectedValue;
-
-            if (string.IsNullOrWhiteSpace(name) || start == null || end == null)
+            var errorList = new List<string>();
+            string name;
+            if (!Validate(txtProjectName.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 20, "Name phải nhiểu hơn 20 kí tự.")
+                },
+                out string errorMessage, out name, "Name"))
             {
-                MessageBox.Show("Please fill required fields (name, start date, end date).");
-                return;
+                errorList.Add(errorMessage);
             }
-
-            if (start > end)
+            string desc;
+            if(!Validate(txtDescription.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 30, "Description phải nhiểu hơn 30 kí tự.")
+                },
+                out errorMessage, out desc, "Description"))
             {
-                MessageBox.Show("End date must be after start date.");
+                errorList.Add(errorMessage);
+            }
+            DateTime start;
+            if(!Validate(dpStartDate.SelectedDate?.ToString(), s => DateTime.Parse(s),
+                new List<ValidationRule<DateTime>>
+                {
+                    new ValidationRule<DateTime>(d => d.Date>=DateTime.Today, "Start date phải trước ngày hiện tại.")
+                },
+                out errorMessage, out start, "Start Date"))
+            {
+                errorList.Add(errorMessage);
+            }
+            DateTime end;
+            if(!Validate(dpEndDate.SelectedDate?.ToString(), s => DateTime.Parse(s),
+                new List<ValidationRule<DateTime>>
+                {
+                    new ValidationRule<DateTime>(d => d.Date>=DateTime.Today, "End date phải sau ngày hiện tại."),
+                    new ValidationRule<DateTime>(d => start == null || d.Date>= start.Date, "End date phải sau start date.")
+                },
+                out errorMessage, out end, "End Date"))
+            {
+                errorList.Add(errorMessage);
+            }
+            if(errorList.Count > 0)
+            {
+                MessageBox.Show(string.Join("\n", errorList), "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -108,9 +140,8 @@ namespace assignment.AdminViewModel
                 {
                     ProjectName = name,
                     Description = desc,
-                    StartDate = DateOnly.FromDateTime(start.Value),
-                    EndDate = DateOnly.FromDateTime(end.Value),
-                    TeamId = teamId
+                    StartDate = DateOnly.FromDateTime(start),
+                    EndDate = DateOnly.FromDateTime(end),
                 };
                 context.Projects.Add(project);
                 context.SaveChanges();
@@ -120,9 +151,8 @@ namespace assignment.AdminViewModel
             {
                 _selectedProject.ProjectName = name;
                 _selectedProject.Description = desc;
-                _selectedProject.StartDate = DateOnly.FromDateTime(start.Value);
-                _selectedProject.EndDate = DateOnly.FromDateTime(end.Value);
-                _selectedProject.TeamId = teamId;
+                _selectedProject.StartDate = DateOnly.FromDateTime(start);
+                _selectedProject.EndDate = DateOnly.FromDateTime(end);
 
                 context.Projects.Update(_selectedProject);
                 context.SaveChanges();
@@ -147,21 +177,17 @@ namespace assignment.AdminViewModel
             headerOfForm.Text = header;
             txtProjectName.Text = name;
             txtDescription.Text = desc;
+            if(start == null)
+            {
+                start = DateTime.Today;
+            }
             dpStartDate.SelectedDate = start;
+            if(end == null)
+            {
+                end = DateTime.Today.AddDays(7);
+            }
             dpEndDate.SelectedDate = end;
             btnSaveProject.Content = btnLabel;
-
-            // Load team list
-            cmbTeam.ItemsSource = context.Teams.ToList();
-
-            if (_selectedProject?.TeamId != null)
-            {
-                cmbTeam.SelectedValue = _selectedProject.TeamId;
-            }
-            else
-            {
-                cmbTeam.SelectedIndex = 0;
-            }
 
             var window = Window.GetWindow(this);
             if (window != null)

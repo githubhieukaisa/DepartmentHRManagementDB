@@ -18,7 +18,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -37,11 +36,7 @@
                     <TextBlock Text="End Date:" Grid.Row="3" Grid.Column="0" Margin="5"/>
                     <DatePicker x:Name="dpEndDate" Grid.Row="3" Grid.Column="1" Margin="5" Width="200"/>
 
-                    <TextBlock Text="Team:" Grid.Row="4" Grid.Column="0" Margin="5"/>
-                    <ComboBox x:Name="cmbTeam" Grid.Row="4" Grid.Column="1" Margin="5" Width="200"
-                          DisplayMemberPath="TeamName" SelectedValuePath="TeamId"/>
-
-                    <Button x:Name="btnSaveProject" Grid.Row="5" Grid.ColumnSpan="2" Margin="5" Width="100"
+                    <Button x:Name="btnSaveProject" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Width="100"
                         Content="Add" Click="btnSaveProject_Click"/>
                 </Grid>
             </StackPanel>

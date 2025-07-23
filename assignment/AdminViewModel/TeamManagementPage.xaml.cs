@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using assignment.utility;
+using static assignment.utility.Validation;
 
 namespace assignment.AdminViewModel
 {
@@ -47,7 +49,7 @@ namespace assignment.AdminViewModel
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             _selectedTeam = null;
-            setUpForm("Add New Team", "", "", DateTime.Today, "Add");
+            setUpForm("Add New Team", "", "", "Add");
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -60,18 +62,35 @@ namespace assignment.AdminViewModel
             }
 
             _selectedTeam = team;
-            setUpForm("Edit Team", team.TeamName, team.Description, team.CreatedAt ?? DateTime.Today, "Save");
+            setUpForm("Edit Team", team.TeamName, team.Description, "Save");
         }
 
         private void btnSaveTeam_Click(object sender, RoutedEventArgs e)
         {
-            string name = txtTeamName.Text.Trim();
-            string desc = txtDescription.Text.Trim();
-            DateTime? created = dpCreatedAt.SelectedDate;
-
-            if (string.IsNullOrWhiteSpace(name) || created == null)
+            var errorList = new List<string>();
+            string name;
+            if (!Validate(txtTeamName.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 20, "Name phải nhiểu hơn 20 kí tự.")
+                },
+                out string errorMessage, out name, "Name"))
             {
-                MessageBox.Show("Team name and created date are required.");
+                errorList.Add(errorMessage);
+            }
+            string desc;
+            if (!Validate(txtDescription.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 20, "Description phải nhiều hơn 20 kí tự.")
+                },
+                out errorMessage, out desc, "Description"))
+            {
+                errorList.Add(errorMessage);
+            }
+            if(errorList.Count > 0)
+            {
+                MessageBox.Show(string.Join("\n", errorList), "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -82,7 +101,7 @@ namespace assignment.AdminViewModel
                 {
                     TeamName = name,
                     Description = desc,
-                    CreatedAt = created
+                    CreatedAt = DateTime.Now,
                 };
                 context.Teams.Add(team);
                 context.SaveChanges();
@@ -93,7 +112,6 @@ namespace assignment.AdminViewModel
                 // Update
                 _selectedTeam.TeamName = name;
                 _selectedTeam.Description = desc;
-                _selectedTeam.CreatedAt = created;
                 context.Teams.Update(_selectedTeam);
                 context.SaveChanges();
                 MessageBox.Show("Team updated.");
@@ -111,13 +129,12 @@ namespace assignment.AdminViewModel
             LoadTeams(key);
         }
 
-        private void setUpForm(string header, string? name, string? desc, DateTime? createdAt, string buttonLabel)
+        private void setUpForm(string header, string? name, string? desc, string buttonLabel)
         {
             formTeamManagement.Visibility = Visibility.Visible;
             headerOfForm.Text = header;
             txtTeamName.Text = name;
             txtDescription.Text = desc;
-            dpCreatedAt.SelectedDate = createdAt;
             btnSaveTeam.Content = buttonLabel;
 
             var window = Window.GetWindow(this);

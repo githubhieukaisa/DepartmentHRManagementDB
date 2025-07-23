@@ -132,7 +132,7 @@ namespace assignment.AdminViewModel {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/assignment;V1.0.0.0;component/adminviewmodel/employeemanagementpage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/assignment;component/adminviewmodel/employeemanagementpage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\AdminViewModel\EmployeeManagementPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

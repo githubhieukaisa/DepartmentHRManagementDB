@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static assignment.utility.ConstantClass;
+using assignment.utility;
+using static assignment.utility.Validation;
 
 namespace assignment.EmployeeUseControl
 {
@@ -180,11 +182,30 @@ namespace assignment.EmployeeUseControl
 
         private void btnSaveTask_Click(object sender, RoutedEventArgs e)
         {
-            string title = txtTaskTitle.Text.Trim();
-            string description = txtDescription.Text.Trim();
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
+            var errorList = new List<string>();
+            string title;
+            if (!Validate(txtTaskTitle.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 20, "Title phải nhiều hơn 20 kí tự.")
+                },
+                out string errorMessage, out title, "Title"))
             {
-                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                errorList.Add(errorMessage);
+            }
+            string description;
+            if (!Validate(txtDescription.Text.Trim(), s => s,
+                new List<ValidationRule<string>>
+                {
+                    new ValidationRule<string>(s => s.Length > 20, "Description phải nhiều hơn 20 kí tự.")
+                },
+                out errorMessage, out description, "Description"))
+            {
+                errorList.Add(errorMessage);
+            }
+            if(errorList.Count > 0)
+            {
+                MessageBox.Show(string.Join("\n", errorList), "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             var newTask = new Models.Task

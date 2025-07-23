@@ -21,7 +21,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -33,9 +32,6 @@
 
                     <TextBlock Text="Description:" Grid.Row="1" Grid.Column="0" Margin="5"/>
                     <TextBox x:Name="txtDescription" Grid.Row="1" Grid.Column="1" Margin="5" Width="200"/>
-
-                    <TextBlock Text="Created At:" Grid.Row="2" Grid.Column="0" Margin="5"/>
-                    <DatePicker x:Name="dpCreatedAt" Grid.Row="2" Grid.Column="1" Margin="5" Width="200"/>
 
                     <Button x:Name="btnSaveTeam" Grid.Row="3" Grid.ColumnSpan="2" Margin="5" Width="100"
                         Content="Add" Click="btnSaveTeam_Click"/>
