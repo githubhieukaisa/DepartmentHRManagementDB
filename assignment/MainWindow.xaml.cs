@@ -1,4 +1,5 @@
 ﻿using assignment.Models;
+using assignment.Service;
 using assignment.utility;
 using System.Reflection.Metadata;
 using System.Text;
@@ -29,28 +30,26 @@ namespace assignment
         {
             string email = tbEmail.Text;
             string password = pbPassword.Password;
-            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            var loginService = new LoginService(context);
+
+            try
             {
-                MessageBox.Show("Please enter both email and password.");
-                return;
+                var user = loginService.Login(email, password);
+
+                Window dashboard = user.RoleId == ConstantClass.ADMIN_ROLE_ID
+                    ? new AdminDashboard(user)
+                    : new EmployeeDashboard(user);
+
+                dashboard.Show();
+                this.Close();
             }
-            var user = context.Employees.FirstOrDefault(emp => emp.Email == email && emp.PasswordHash == password && emp.Status.Equals("Active"));
-            if(user == null)
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (UnauthorizedAccessException)
             {
                 MessageBox.Show("Invalid email or password.");
-                return;
-            }
-            if (user.RoleId == ConstantClass.ADMIN_ROLE_ID) // Assuming 1 is the role ID for Admin
-            {
-                AdminDashboard adminDashboard = new AdminDashboard(user);
-                adminDashboard.Show();
-                this.Close();
-            }
-            else
-            {
-                EmployeeDashboard employeeDashboard= new EmployeeDashboard(user);
-                employeeDashboard.Show();
-                this.Close();
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using assignment.Models;
+using assignment.Service;
+using assignment.utility;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static assignment.utility.Validation;
-using assignment.utility;
 
 namespace assignment.AdminViewModel
 {
@@ -134,30 +135,9 @@ namespace assignment.AdminViewModel
                 return;
             }
 
-            if (_selectedProject == null)
-            {
-                var project = new Project
-                {
-                    ProjectName = name,
-                    Description = desc,
-                    StartDate = DateOnly.FromDateTime(start),
-                    EndDate = DateOnly.FromDateTime(end),
-                };
-                context.Projects.Add(project);
-                context.SaveChanges();
-                MessageBox.Show("Project added.");
-            }
-            else
-            {
-                _selectedProject.ProjectName = name;
-                _selectedProject.Description = desc;
-                _selectedProject.StartDate = DateOnly.FromDateTime(start);
-                _selectedProject.EndDate = DateOnly.FromDateTime(end);
-
-                context.Projects.Update(_selectedProject);
-                context.SaveChanges();
-                MessageBox.Show("Project updated.");
-            }
+            var service = new ProjectService(context);
+            service.SaveProject(_selectedProject, name, desc, start, end);
+            MessageBox.Show(_selectedProject == null ? "Project added." : "Project updated.");
 
             formProjectManagement.Visibility = Visibility.Collapsed;
             _selectedProject = null;

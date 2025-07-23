@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace assignment.Models;
 
-public partial class ProjectManagementDbContext : DbContext
+public partial class ProjectManagementDbContext : DbContext, IProjectManagementDbContext
 {
     public static ProjectManagementDbContext Instance { get; } = new ProjectManagementDbContext();
     public ProjectManagementDbContext()
