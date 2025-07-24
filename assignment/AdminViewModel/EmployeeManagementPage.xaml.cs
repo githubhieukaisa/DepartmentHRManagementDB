@@ -76,7 +76,7 @@ namespace assignment.AdminViewModel
             var window = Window.GetWindow(this);
             if (window != null)
             {
-                window.Height = 650;
+                window.Height = 700;
             }
 
             formEmployeeManagement.Visibility = Visibility.Visible;
@@ -237,7 +237,7 @@ namespace assignment.AdminViewModel
             var window = Window.GetWindow(this);
             if (window != null)
             {
-                window.Height = 450;
+                window.Height = 500;
             }
         }
 

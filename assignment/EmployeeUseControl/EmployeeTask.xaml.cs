@@ -40,11 +40,11 @@ namespace assignment.EmployeeUseControl
 
         private void LoadProject()
         {
-            var projects= context.Projects
-                .Where(p=> p.Team.TeamMembers.Any(tm=> tm.EmployeeId== _selectedEmployee.EmployeeId))
+            var projects = context.Projects
+                .Where(p => p.Team.TeamMembers.Any(tm => tm.EmployeeId == _selectedEmployee.EmployeeId))
                 .ToList();
             cbProjects.ItemsSource = projects;
-            cbProjects.SelectedIndex = 0;
+            cbProjects.SelectedIndex = projects.Count > 0 ? projects.Count - 1 : -1;
         }
 
         private void LoadTasks()
@@ -55,6 +55,9 @@ namespace assignment.EmployeeUseControl
             if (roleNames.Equals("QA"))
             {
                 _isQA= true;
+                dgTaskAssignments.Visibility = Visibility.Collapsed;
+                dgTasks.Visibility = Visibility.Visible;
+                btnAddTask.Visibility = Visibility.Visible;
                 LoadTaskOfQA();
             }
             else
@@ -70,16 +73,13 @@ namespace assignment.EmployeeUseControl
                 .Include(t => t.Status)
                 .Include(t => t.Reporter)
                 .ToList();
-            dgTaskAssignments.Visibility= Visibility.Collapsed;
-            dgTasks.Visibility = Visibility.Visible;
-            btnAddTask.Visibility = Visibility.Visible;
             dgTasks.ItemsSource = tasks;
         }
 
         private void LoadTasksOfDeveloperAndTester()
         {
             var taskAssignments = context.TaskAssignments
-                .Where(ta => ta.EmployeeId == _selectedEmployee.EmployeeId)
+                .Where(ta => ta.EmployeeId == _selectedEmployee.EmployeeId && ta.Task.Project.ProjectId== _selectedProjectId)
                 .Include(ta => ta.Task)
                 .ThenInclude(t => t.Project)
                 .Include(ta => ta.Task)
@@ -87,7 +87,8 @@ namespace assignment.EmployeeUseControl
                 .ToList();
             foreach (var taskAssignment in taskAssignments)
             {
-                taskAssignment.allStatusAvailable = roleStatusMap[context.Roles.FirstOrDefault(r=> r.RoleId == taskAssignment.RoleId).RoleName];
+                string roleTask = context.Roles.FirstOrDefault(r => r.RoleId == taskAssignment.RoleId).RoleName;
+                taskAssignment.allStatusAvailable = roleStatusMap[roleTask];
                 if (taskAssignment.Task == null)
                 {
                     continue;
@@ -95,7 +96,7 @@ namespace assignment.EmployeeUseControl
                 if (!taskAssignment.allStatusAvailable.Any(status => status.StatusId == taskAssignment.Task.StatusId))
                 {
                     var statusToAdd = context.TaskStatuses.FirstOrDefault(s => s.StatusId == taskAssignment.Task.StatusId);
-                    if (statusToAdd != null)
+                    if (statusToAdd != null && roleDefaultStatusMap[roleTask].Contains(statusToAdd))
                     {
                         taskAssignment.allStatusAvailable.Add(statusToAdd);
                     }
@@ -170,13 +171,23 @@ namespace assignment.EmployeeUseControl
                 .Where(p => p.ProjectId == _selectedProjectId)
                 .Select(p => p.Team)
                 .FirstOrDefault();
-            if(team.DoneAt==null)
+            if (_isQA)
             {
-                _isSuccessProject = false;
+                if (team.DoneAt == null)
+                {
+                    _isSuccessProject = false;
+                    btnAddTask.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    _isSuccessProject = true;
+                    btnAddTask.Visibility = Visibility.Collapsed;
+                }
+                LoadTaskOfQA();
             }
             else
             {
-                _isSuccessProject = true;
+                LoadTasksOfDeveloperAndTester();
             }
         }
 

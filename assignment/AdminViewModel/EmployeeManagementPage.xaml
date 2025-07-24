@@ -39,7 +39,7 @@
                 <Button Content="Search" Click="search_Click" Margin="5" />
             </StackPanel>
             <TextBlock Text="Employee Management" FontSize="20" FontWeight="Bold" Margin="10" />
-            <DataGrid x:Name="dgEmployee" AutoGenerateColumns="False" Margin="10">
+            <DataGrid x:Name="dgEmployee" AutoGenerateColumns="False" Margin="10" Height="200">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="FullName" Binding="{Binding FullName}" />
                     <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
