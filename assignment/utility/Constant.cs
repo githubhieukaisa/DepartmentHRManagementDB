@@ -37,13 +37,15 @@ namespace assignment.utility
         public readonly static List<Models.TaskStatus> statusOfTester = context.TaskStatuses
             .Where(s => s.StatusName == "Ready for Testing" || s.StatusName == "Verified" || s.StatusName == "Rejected").ToList();
         public readonly static List<Models.TaskStatus> statusOfQA = context.TaskStatuses.Where(s=> s.StatusName=="To Do").ToList();
-
+        
+        //status to display in the task status dropdown based on role
         public readonly static Dictionary<string, List<Models.TaskStatus>> roleStatusMap = new()
         {
             { "Developer", statusOfDev },
             { "Tester", statusOfTester },
             { "QA", statusOfQA }
         };
+        //status can change to this status by default when creating a task
         public readonly static Dictionary<string, List<Models.TaskStatus>> roleDefaultStatusMap = new()
         {
             { "Developer", defaultStatusOfDev },
