@@ -73,6 +73,7 @@
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Button Content="Add Project" Click="btnAdd_Click" Margin="5"/>
                 <Button Content="Edit Project" Click="btnEdit_Click" Margin="5"/>
+                <Button Content="Export to Excel" Click="btnExportToExcel_Click" Margin="5"/>
             </StackPanel>
 
             <StackPanel x:Name="formAddTeam" Visibility="Collapsed" Margin="10">

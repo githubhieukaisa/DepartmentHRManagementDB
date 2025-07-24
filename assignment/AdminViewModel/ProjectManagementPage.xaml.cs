@@ -221,6 +221,11 @@ namespace assignment.AdminViewModel
 
             LoadProjects();
         }
+
+        private void btnExportToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
         private void resizeToOrigin()
         {
             var window = Window.GetWindow(this);

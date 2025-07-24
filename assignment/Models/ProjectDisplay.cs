@@ -15,5 +15,7 @@ namespace assignment.Models
         public DateOnly? EndDate => Project.EndDate;
         public Team Team => Project.Team!;
         public bool ShowMarkAsDone { get; set; }
+
+        public bool ShowExportProject { get; set; }
     }
 }
