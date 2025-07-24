@@ -2,8 +2,12 @@
 using assignment.Service;
 using assignment.utility;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static assignment.utility.Validation;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace assignment.AdminViewModel
 {
@@ -241,5 +246,87 @@ namespace assignment.AdminViewModel
             }
         }
 
+        private void btnExportToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            // Kiểm tra nếu DataGrid có dữ liệu
+            if (dgEmployee.ItemsSource == null || !(dgEmployee.ItemsSource is List<Employee> employees) || employees.Count == 0)
+            {
+                MessageBox.Show("No data to export.", "Export Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Cấu hình EPPlus
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Tạo SaveFileDialog để người dùng chọn vị trí lưu file
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
+                FileName = "EmployeeManagement_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    using (var package = new ExcelPackage())
+                    {
+                        var worksheet = package.Workbook.Worksheets.Add("Employees");
+                        var headerRow = new string[] { "Full Name", "Email", "Role", "Department", "Status" };
+
+                        // Định dạng tiêu đề
+                        var headerRange = worksheet.Cells[1, 1, 1, headerRow.Length];
+                        headerRange.Style.Font.Bold = true;
+                        headerRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        headerRange.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+                        headerRange.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        headerRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        for (int i = 0; i < headerRow.Length; i++)
+                        {
+                            worksheet.Cells[1, i + 1].Value = headerRow[i];
+                        }
+
+                        // Ghi dữ liệu từ DataGrid
+                        for (int i = 0; i < employees.Count; i++)
+                        {
+                            var employee = employees[i];
+                            worksheet.Cells[i + 2, 1].Value = employee.FullName;
+                            worksheet.Cells[i + 2, 2].Value = employee.Email;
+                            worksheet.Cells[i + 2, 3].Value = employee.Role?.RoleName;
+                            worksheet.Cells[i + 2, 4].Value = employee.Department?.DepartmentName;
+                            worksheet.Cells[i + 2, 5].Value = employee.Status;
+
+                            // Định dạng dữ liệu
+                            var dataRange = worksheet.Cells[i + 2, 1, i + 2, 5];
+                            dataRange.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        }
+
+                        // Tự động điều chỉnh cột
+                        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                        // Thêm tiêu đề trang
+                        worksheet.Cells[1, 1, 1, 5].Merge = true;
+                        worksheet.Cells[1, 1].Value = "Employee Management Report";
+                        worksheet.Cells[1, 1].Style.Font.Bold = true;
+                        worksheet.Cells[1, 1].Style.Font.Size = 16;
+                        worksheet.Cells[1, 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                        // Thêm ngày xuất
+                        worksheet.Cells[2, 1, 2, 5].Merge = true;
+                        worksheet.Cells[2, 1].Value = $"Export Date: {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
+                        worksheet.Cells[2, 1].Style.Font.Italic = true;
+                        worksheet.Cells[2, 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
+
+                        // Lưu file
+                        File.WriteAllBytes(saveFileDialog.FileName, package.GetAsByteArray());
+                        MessageBox.Show("Data exported successfully to " + saveFileDialog.FileName, "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error exporting to Excel: " + ex.Message, "Export Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }

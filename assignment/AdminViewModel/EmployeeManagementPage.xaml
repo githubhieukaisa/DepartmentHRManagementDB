@@ -53,6 +53,7 @@
                 <Button Content="Edit Employee" Click="EditEmployee_Click" Margin="5" />
                 <Button Content="Deactive Employee" Click="DeleteEmployee_Click" Margin="5" />
                 <Button Content="Active Employee" Click="ActiveEmployee_Click" Margin="5" />
+                <Button Content="Export to Excel"  Click="btnExportToExcel_Click" Margin="5" />
             </StackPanel>
         </StackPanel>
     </Grid>

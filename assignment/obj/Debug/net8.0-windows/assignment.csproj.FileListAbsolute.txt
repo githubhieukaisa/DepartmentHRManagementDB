@@ -158,3 +158,7 @@ D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment.pdb
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\assignment.genruntimeconfig.cache
 D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\obj\Debug\net8.0-windows\ref\assignment.dll
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\bin\Debug\net8.0-windows\EPPlus.dll
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\bin\Debug\net8.0-windows\EPPlus.Interfaces.dll
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\bin\Debug\net8.0-windows\EPPlus.System.Drawing.dll
+D:\blackmyth\New folder (3)\kì 5\PRN212\project\assignment\assignment\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
