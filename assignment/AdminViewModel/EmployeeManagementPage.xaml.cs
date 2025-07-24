@@ -60,6 +60,7 @@ namespace assignment.AdminViewModel
 
         private void AddEmployee_Click(object sender, RoutedEventArgs e)
         {
+            _selectedEmployee= null;
             setUpFormManagement();
             cmbRole.SelectedIndex= 0;
             cmbDepartment.SelectedIndex = 0;
@@ -194,12 +195,25 @@ namespace assignment.AdminViewModel
                 errorList.Add(errorMessage);
             }
             string email;
+            List<string> emailList=new List<string>();
+            if (_selectedEmployee != null)
+            {
+                emailList = context.Employees
+                    .Where(e => e.EmployeeId != _selectedEmployee.EmployeeId)
+                    .Select(e => e.Email)
+                    .ToList();
+            }
+            else
+            {
+                emailList = context.Employees.Select(e => e.Email).ToList();
+            }
             if (!Validate(txtEmail.Text.Trim(), s => s, 
                 new List<ValidationRule<string>>
                 {
                     new ValidationRule<string>(s => s.Length >= 10,"Email không được ít hơn 10 ký tự"),
                     new ValidationRule<string>(s => s.Length <= 50,"Email không được quá 50 ký tự"),
-                    new ValidationRule<string>(s => s.Contains("@") && s.Contains("."), "Email phải chứa '@' và '.'")
+                    new ValidationRule<string>(s => s.Contains("@") && s.Contains("."), "Email phải chứa '@' và '.'"),
+                    new ValidationRule<string>(s => !emailList.Contains(s), "Email đã tồn tại"),
                 }, 
                 out errorMessage, out email, "Email"))
             {
