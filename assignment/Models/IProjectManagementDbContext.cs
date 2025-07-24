@@ -12,5 +12,6 @@ namespace assignment.Models
         DbSet<Employee> Employees { get; set; }
         int SaveChanges();
         DbSet<Project> Projects { get; set; }
+        DbSet<Team> Teams { get; set; }
     }
 }

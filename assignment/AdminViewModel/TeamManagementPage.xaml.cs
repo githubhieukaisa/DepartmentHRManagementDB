@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using assignment.utility;
 using static assignment.utility.Validation;
+using assignment.Service;
 
 namespace assignment.AdminViewModel
 {
@@ -72,7 +73,7 @@ namespace assignment.AdminViewModel
             if (!Validate(txtTeamName.Text.Trim(), s => s,
                 new List<ValidationRule<string>>
                 {
-                    new ValidationRule<string>(s => s.Length > 20, "Name phải nhiểu hơn 20 kí tự.")
+                    new ValidationRule<string>(s => s.Length > 5, "Name phải nhiểu hơn 5 kí tự.")
                 },
                 out string errorMessage, out name, "Name"))
             {
@@ -82,7 +83,7 @@ namespace assignment.AdminViewModel
             if (!Validate(txtDescription.Text.Trim(), s => s,
                 new List<ValidationRule<string>>
                 {
-                    new ValidationRule<string>(s => s.Length > 20, "Description phải nhiều hơn 20 kí tự.")
+                    new ValidationRule<string>(s => s.Length > 5, "Description phải nhiều hơn 5 kí tự.")
                 },
                 out errorMessage, out desc, "Description"))
             {
@@ -93,27 +94,14 @@ namespace assignment.AdminViewModel
                 MessageBox.Show(string.Join("\n", errorList), "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
+            var service = new SaveTeamService(context);
+            service.SaveTeam(_selectedTeam, name, desc);
             if (_selectedTeam == null)
             {
-                // Add
-                var team = new Team
-                {
-                    TeamName = name,
-                    Description = desc,
-                    CreatedAt = DateTime.Now,
-                };
-                context.Teams.Add(team);
-                context.SaveChanges();
                 MessageBox.Show("Team added.");
             }
             else
             {
-                // Update
-                _selectedTeam.TeamName = name;
-                _selectedTeam.Description = desc;
-                context.Teams.Update(_selectedTeam);
-                context.SaveChanges();
                 MessageBox.Show("Team updated.");
             }
 

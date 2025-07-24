@@ -92,7 +92,7 @@ namespace assignment.AdminViewModel
             if (!Validate(txtProjectName.Text.Trim(), s => s,
                 new List<ValidationRule<string>>
                 {
-                    new ValidationRule<string>(s => s.Length > 20, "Name phải nhiểu hơn 20 kí tự.")
+                    new ValidationRule<string>(s => s.Length > 5, "Name phải nhiểu hơn 5 kí tự.")
                 },
                 out string errorMessage, out name, "Name"))
             {
@@ -102,7 +102,7 @@ namespace assignment.AdminViewModel
             if(!Validate(txtDescription.Text.Trim(), s => s,
                 new List<ValidationRule<string>>
                 {
-                    new ValidationRule<string>(s => s.Length > 30, "Description phải nhiểu hơn 30 kí tự.")
+                    new ValidationRule<string>(s => s.Length > 5, "Description phải nhiểu hơn 5 kí tự.")
                 },
                 out errorMessage, out desc, "Description"))
             {

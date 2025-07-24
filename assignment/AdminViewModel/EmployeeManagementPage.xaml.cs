@@ -1,4 +1,5 @@
 ﻿using assignment.Models;
+using assignment.Service;
 using assignment.utility;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -187,7 +188,7 @@ namespace assignment.AdminViewModel
                 errorList.Add(errorMessage);
             }
             string email;
-            if(!Validate(txtEmail.Text.Trim(), s => s, 
+            if (!Validate(txtEmail.Text.Trim(), s => s, 
                 new List<ValidationRule<string>>
                 {
                     new ValidationRule<string>(s => s.Length >= 10,"Email không được ít hơn 10 ký tự"),
@@ -217,39 +218,8 @@ namespace assignment.AdminViewModel
                 MessageBox.Show(string.Join("\n", errorList));
                 return;
             }
-            
-            if (string.IsNullOrWhiteSpace(fullname) || string.IsNullOrWhiteSpace(email))
-            {
-                MessageBox.Show("Please fill all required fields.");
-                return;
-            }
-
-            if(btnManagement.Content.ToString() == "Add")
-            {
-                var newEmployee = new Employee
-                {
-                    FullName = fullname,
-                    Email = email,
-                    PasswordHash = password,
-                    RoleId = roleId,
-                    DepartmentId = departmentId,
-                    Status = "Active"
-                };
-                context.Employees.Add(newEmployee);
-                context.SaveChanges();
-                MessageBox.Show("Employee added successfully.");
-            }
-            else if(btnManagement.Content.ToString() == "Save" && _selectedEmployee != null)
-            {
-                _selectedEmployee.FullName = fullname;
-                _selectedEmployee.Email = email;
-                _selectedEmployee.PasswordHash = txtPassword.Text.Trim();
-                _selectedEmployee.RoleId = roleId;
-                _selectedEmployee.DepartmentId = departmentId;
-                context.Employees.Update(_selectedEmployee);
-                context.SaveChanges();
-                MessageBox.Show("Employee updated successfully.");
-            }
+            var service = new EmployeeManagementService(context);
+            service.SaveEmployee(_selectedEmployee, btnManagement.Content.ToString(), fullname, email, password, roleId, departmentId, "Active");
             _selectedEmployee = null;
             formEmployeeManagement.Visibility = Visibility.Collapsed;
             resizeToOrigin();

@@ -25,7 +25,6 @@ namespace ManageProjectTest
         [Fact]
         public void SaveProject_ShouldAddNewProject_WhenSelectedProjectIsNull()
         {
-            // Arrange
             var mockDbSet = new List<Project>().AsQueryable().BuildMockDbSet();
             _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
 
@@ -34,10 +33,8 @@ namespace ManageProjectTest
             var start = DateTime.Today;
             var end = DateTime.Today.AddDays(7);
 
-            // Act
             _service.SaveProject(null, name, desc, start, end);
 
-            // Assert
             _mockContext.Verify(c => c.Projects.Add(It.Is<Project>(p =>
                 p.ProjectName == name &&
                 p.Description == desc &&
@@ -51,7 +48,6 @@ namespace ManageProjectTest
         [Fact]
         public void SaveProject_ShouldUpdateProject_WhenSelectedProjectIsNotNull()
         {
-            // Arrange
             var existingProject = new Project
             {
                 ProjectId = 1,
@@ -61,7 +57,6 @@ namespace ManageProjectTest
                 EndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(5))
             };
 
-            // Setup DbSet<Project> để tránh null
             var mockDbSet = new List<Project> { existingProject }.AsQueryable().BuildMockDbSet();
             _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
 
@@ -70,10 +65,8 @@ namespace ManageProjectTest
             var start = DateTime.Today;
             var end = DateTime.Today.AddDays(10);
 
-            // Act
             _service.SaveProject(existingProject, name, desc, start, end);
 
-            // Assert
             Assert.Equal(name, existingProject.ProjectName);
             Assert.Equal(desc, existingProject.Description);
             Assert.Equal(DateOnly.FromDateTime(start), existingProject.StartDate);
@@ -84,56 +77,69 @@ namespace ManageProjectTest
         }
 
         [Fact]
-        public void SaveProject_ShouldNotThrow_WhenDatesAreValid()
-        {
-            // Arrange
-            var mockDbSet = new List<Project>().AsQueryable().BuildMockDbSet();
-            _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
-
-            var name = "Dự án hợp lệ";
-            var desc = "Mô tả hợp lệ dài hơn 30 ký tự.";
-            var start = DateTime.Today;
-            var end = DateTime.Today.AddDays(5);
-
-            // Act + Assert
-            var exception = Record.Exception(() => _service.SaveProject(null, name, desc, start, end));
-            Assert.Null(exception);
-        }
-
-        [Fact]
         public void SaveProject_ShouldCallAddOnly_WhenCreatingNewProject()
         {
-            // Arrange
             var mockDbSet = new List<Project>().AsQueryable().BuildMockDbSet();
             _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
 
-            // Act
             _service.SaveProject(null, "Project A", "Mô tả đủ dài để test thêm", DateTime.Today, DateTime.Today.AddDays(1));
 
-            // Assert
             _mockContext.Verify(c => c.Projects.Add(It.IsAny<Project>()), Times.Once);
             _mockContext.Verify(c => c.Projects.Update(It.IsAny<Project>()), Times.Never);
         }
 
         [Fact]
-        public void SaveProject_ShouldCallUpdateOnly_WhenUpdatingExistingProject()
+        public void SaveProject_ShouldAddNewProject_WhenProjectNameIsEmpty()
         {
-            // Arrange
+            var mockDbSet = new List<Project>().AsQueryable().BuildMockDbSet();
+            _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
+
+            var name = "";
+            var desc = "Mô tả đủ dài để kiểm tra tính hợp lệ của dự án.";
+            var start = DateTime.Today;
+            var end = DateTime.Today.AddDays(7);
+
+            _service.SaveProject(null, name, desc, start, end);
+
+            _mockContext.Verify(c => c.Projects.Add(It.Is<Project>(p =>
+                p.ProjectName == name &&
+                p.Description == desc &&
+                p.StartDate == DateOnly.FromDateTime(start) &&
+                p.EndDate == DateOnly.FromDateTime(end)
+            )), Times.Once);
+
+            _mockContext.Verify(c => c.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void SaveProject_ShouldUpdateProject_WhenStartAndEndDateAreSame()
+        {
             var existingProject = new Project
             {
-                ProjectId = 2,
-                ProjectName = "Project B",
-                Description = "Cũ",
-                StartDate = DateOnly.FromDateTime(DateTime.Today),
-                EndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2))
+                ProjectId = 1,
+                ProjectName = "Original Name",
+                Description = "Original Description",
+                StartDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)),
+                EndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(5))
             };
 
-            // Act
-            _service.SaveProject(existingProject, "Project C", "Mới hơn nhiều mô tả", DateTime.Today, DateTime.Today.AddDays(5));
+            var mockDbSet = new List<Project> { existingProject }.AsQueryable().BuildMockDbSet();
+            _mockContext.Setup(c => c.Projects).Returns(mockDbSet.Object);
 
-            // Assert
-            _mockContext.Verify(c => c.Projects.Update(It.IsAny<Project>()), Times.Once);
-            _mockContext.Verify(c => c.Projects.Add(It.IsAny<Project>()), Times.Never);
+            var name = "Updated Project";
+            var desc = "Mô tả đủ dài để kiểm tra tính hợp lệ của dự án.";
+            var start = DateTime.Today;
+            var end = DateTime.Today;
+
+            _service.SaveProject(existingProject, name, desc, start, end);
+
+            Assert.Equal(name, existingProject.ProjectName);
+            Assert.Equal(desc, existingProject.Description);
+            Assert.Equal(DateOnly.FromDateTime(start), existingProject.StartDate);
+            Assert.Equal(DateOnly.FromDateTime(end), existingProject.EndDate);
+
+            _mockContext.Verify(c => c.Projects.Update(existingProject), Times.Once);
+            _mockContext.Verify(c => c.SaveChanges(), Times.Once);
         }
     }
 }
