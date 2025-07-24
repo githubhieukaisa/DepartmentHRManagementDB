@@ -1,7 +1,9 @@
 ﻿using assignment.Models;
 using assignment.Service;
+using assignment.Service.ExcelService;
 using assignment.utility;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -224,7 +226,47 @@ namespace assignment.AdminViewModel
 
         private void btnExportToExcel_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Lấy toàn bộ dữ liệu
+            var projects = context.Projects
+                .Include(p => p.Team)
+                .ToList();
+
+            var allTasks = context.Tasks
+                .Include(t => t.Status)
+                .Include(t => t.Reporter) // Reporter
+                .ToList();
+
+            var allTaskAssignments = context.TaskAssignments
+                .Include(ta => ta.Employee)
+                .Include(ta => ta.Role)
+                .ToList();
+
+            var data = new Dictionary<string, object>
+            {
+                ["Projects"] = projects,
+                ["Tasks"] = allTasks,
+                ["TaskAssignments"] = allTaskAssignments
+            };
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
+                FileName = "All_Projects_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx" // 01:24 PM +07, 24/07/2025
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var exporter = ExcelExporterFactory.CreateExporter("allprojects");
+                    exporter.ExportToExcel(data, saveFileDialog.FileName);
+                    MessageBox.Show("Data exported successfully to " + saveFileDialog.FileName, "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error exporting to Excel: " + ex.Message, "Export Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
         private void resizeToOrigin()
         {

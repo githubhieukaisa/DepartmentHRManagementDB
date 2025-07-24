@@ -13,9 +13,14 @@ namespace assignment.Service.ExcelService
             if (type.Equals("employee", StringComparison.OrdinalIgnoreCase))
             {
                 return new EmployeeExcelExporter();
-            } else if(type.Equals("project", StringComparison.OrdinalIgnoreCase))
+            } 
+            else if(type.Equals("project", StringComparison.OrdinalIgnoreCase))
             {
                 return new ProjectExcelExporter();
+            }
+            else if (type.Equals("allprojects", StringComparison.OrdinalIgnoreCase))
+            {
+                return new AllProjectsExcelExporter();
             }
             else
             {
